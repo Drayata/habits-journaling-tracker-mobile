@@ -89,9 +89,9 @@ export default function MonthNavigator() {
               setPickerYear(currentYear)
               setShowPicker((prev) => !prev)
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 hover:border-indigo-300 dark:hover:border-indigo-800 transition-all min-w-[180px] justify-center"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-800 transition-all min-w-[180px] justify-center"
           >
-            <CalendarDays className="w-4 h-4 text-indigo-500" />
+            <CalendarDays className="w-4 h-4 text-emerald-500" />
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={monthLabel}
@@ -126,9 +126,9 @@ export default function MonthNavigator() {
               exit={{ opacity: 0, scale: 0.9 }}
               whileTap={{ scale: 0.95 }}
               onClick={goToCurrentMonth}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-950/60 transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/60 transition-all"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Today
             </motion.button>
           )}
@@ -179,9 +179,9 @@ export default function MonthNavigator() {
                     onClick={() => handlePickMonth(i)}
                     className={`py-2 px-1 rounded-xl text-xs font-medium transition-all ${
                       isSelected
-                        ? 'bg-indigo-500 text-white shadow-sm shadow-indigo-500/25'
+                        ? 'bg-emerald-500 text-white shadow-sm shadow-emerald-500/25'
                         : isNow
-                        ? 'bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
                         : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                     }`}
                   >

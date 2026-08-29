@@ -81,7 +81,7 @@ export default function HeatmapGrid({ completions, habits }) {
         {dayLabels.map((label, i) => (
           <div
             key={i}
-            className="h-5 flex items-center justify-center text-[10px] text-zinc-500 dark:text-zinc-500 font-medium"
+            className="h-5 flex items-center justify-center text-[10px] text-emerald-600 dark:text-emerald-400 font-medium"
           >
             {label}
           </div>
@@ -119,7 +119,7 @@ export default function HeatmapGrid({ completions, habits }) {
                   cell.isFuture
                     ? 'bg-zinc-50 dark:bg-zinc-900 border border-dashed border-zinc-200/80 dark:border-zinc-800'
                     : getIntensity(cell.count, cell.activeHabitCount)
-                } ${cell.isToday ? 'ring-2 ring-indigo-500 ring-offset-1 ring-offset-white dark:ring-offset-zinc-950' : ''}`}
+                } ${cell.isToday ? 'ring-2 ring-emerald-500 ring-offset-1 ring-offset-white dark:ring-offset-zinc-950' : ''}`}
               >
                 <span
                   className={`text-[10px] font-medium leading-none ${

@@ -10,6 +10,7 @@ import {
   Moon,
   Zap,
   LogOut,
+  Leaf,
 } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 import { useAuth } from '../contexts/AuthContext'
@@ -32,12 +33,12 @@ function NavItem({ to, icon: Icon, label, isSidebar }) {
           isSidebar
             ? `px-3 py-2.5 rounded-xl text-sm font-medium ${
                 isActive
-                  ? 'bg-zinc-100/80 text-zinc-900 dark:bg-indigo-500/10 dark:text-indigo-400'
+                  ? 'bg-emerald-50/80 text-emerald-900 dark:bg-emerald-500/10 dark:text-emerald-400'
                   : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/70 hover:text-zinc-900 dark:hover:text-zinc-200'
               }`
             : `flex-col items-center justify-center py-1 text-[11px] font-medium ${
                 isActive
-                  ? 'text-zinc-900 dark:text-indigo-400'
+                  ? 'text-emerald-600 dark:text-emerald-400'
                   : 'text-zinc-500 dark:text-zinc-500'
               }`
         }`
@@ -50,7 +51,7 @@ function NavItem({ to, icon: Icon, label, isSidebar }) {
             {isActive && !isSidebar && (
               <motion.div
                 layoutId="nav-indicator"
-                className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-indigo-500 rounded-full"
+                className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-emerald-500 rounded-full"
               />
             )}
           </div>
@@ -72,8 +73,8 @@ export default function Layout() {
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 flex-col bg-white dark:bg-zinc-900 border-r border-zinc-200/80 dark:border-zinc-800 z-30">
         {/* Logo */}
         <div className="flex items-center gap-2.5 px-5 py-5">
-          <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <Zap className="w-4.5 h-4.5 text-white" />
+          <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <Leaf className="w-4.5 h-4.5 text-white" />
           </div>
           <span className="text-lg font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
             HabitFlow
