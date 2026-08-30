@@ -66,4 +66,23 @@ class JournalNotifier extends AsyncNotifier<List<JournalEntry>> {
         .sortByDateDesc()
         .findAll();
   }
+
+  Future<void> searchJournals(String query) async {
+    if (query.trim().isEmpty) {
+      state = AsyncData(
+        await _isar.journalEntrys.where().sortByDateDesc().findAll(),
+      );
+      return;
+    }
+
+    final results = await _isar.journalEntrys
+        .filter()
+        .contentContains(query, caseSensitive: false)
+        .or()
+        .titleContains(query, caseSensitive: false)
+        .sortByDateDesc()
+        .findAll();
+
+    state = AsyncData(results);
+  }
 }

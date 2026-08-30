@@ -5,8 +5,11 @@ import '../../models/journal_entry.dart';
 import '../../providers/journal_provider.dart';
 import '../theme.dart';
 
-class JournalScreen extends ConsumerWidget {
+class JournalScreen extends ConsumerStatefulWidget {
   const JournalScreen({super.key});
+
+  @override
+  ConsumerState<JournalScreen> createState() => _JournalScreenState();
 
   static void showAddDialog(BuildContext context, WidgetRef ref) {
     final titleController = TextEditingController();
@@ -90,49 +93,110 @@ class JournalScreen extends ConsumerWidget {
       contentController.dispose();
     });
   }
+}
+
+class _JournalScreenState extends ConsumerState<JournalScreen> {
+  final _searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final entriesAsync = ref.watch(journalProvider);
 
-    return entriesAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (entries) {
-        if (entries.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.book_outlined,
-                    size: 64, color: Colors.grey.shade300),
-                const SizedBox(height: 16),
-                Text(
-                  'No journal entries yet',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.grey.shade500,
-                      ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: const Text('Journal'),
+            floating: true,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(60),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                child: SearchBar(
+                  controller: _searchController,
+                  leading: const Icon(Icons.search),
+                  hintText: 'Search journals...',
+                  elevation: WidgetStateProperty.all(0),
+                  backgroundColor: WidgetStateProperty.all(
+                    Colors.grey.shade100,
+                  ),
+                  onChanged: (query) {
+                    ref.read(journalProvider.notifier).searchJournals(query);
+                  },
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Tap + to write your first entry',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey.shade400,
-                      ),
-                ),
-              ],
+              ),
             ),
-          );
-        }
+          ),
+          entriesAsync.when(
+            loading: () => const SliverFillRemaining(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            error: (e, _) => SliverFillRemaining(
+              child: Center(child: Text('Error: $e')),
+            ),
+            data: (entries) {
+              if (entries.isEmpty) {
+                return SliverFillRemaining(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.book_outlined,
+                            size: 64, color: Colors.grey.shade300),
+                        const SizedBox(height: 16),
+                        Text(
+                          _searchController.text.isEmpty
+                              ? 'No journal entries yet'
+                              : 'No results found',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(
+                                color: Colors.grey.shade500,
+                              ),
+                        ),
+                        if (_searchController.text.isEmpty) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            'Tap + to write your first entry',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Colors.grey.shade400,
+                                ),
+                          ),
+                        ]
+                      ],
+                    ),
+                  ),
+                );
+              }
 
-        return ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemCount: entries.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 8),
-          itemBuilder: (context, index) =>
-              _JournalTile(entry: entries[index], ref: ref),
-        );
-      },
+              return SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: _JournalTile(entry: entries[index], ref: ref),
+                      );
+                    },
+                    childCount: entries.length,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

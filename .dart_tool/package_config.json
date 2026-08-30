@@ -242,6 +242,36 @@
       "languageVersion": "3.8"
     },
     {
+      "name": "flutter_local_notifications",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications-22.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_linux-8.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_platform_interface-12.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
+      "name": "flutter_local_notifications_web",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_web-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
+      "name": "flutter_local_notifications_windows",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications_windows-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
       "name": "flutter_riverpod",
       "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_riverpod-2.6.1",
       "packageUri": "lib/",
@@ -282,6 +312,12 @@
       "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/hooks-2.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.10"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "http_multi_server",
@@ -518,6 +554,48 @@
       "languageVersion": "3.10"
     },
     {
+      "name": "shared_preferences",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.5.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "shared_preferences_android",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.28",
+      "packageUri": "lib/",
+      "languageVersion": "3.12"
+    },
+    {
+      "name": "shared_preferences_foundation",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_foundation-2.5.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
+      "name": "shared_preferences_linux",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "shared_preferences_web",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_web-2.4.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "shared_preferences_windows",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "shelf",
       "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/shelf-1.4.2",
       "packageUri": "lib/",
@@ -594,6 +672,12 @@
       "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/time-2.1.6",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "timezone",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/timezone-0.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
     },
     {
       "name": "timing",

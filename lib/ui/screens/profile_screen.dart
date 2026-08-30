@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/database_provider.dart';
+import '../../providers/settings_provider.dart';
 import '../../services/export_service.dart';
 import '../theme.dart';
 
@@ -29,6 +30,15 @@ class ProfileScreen extends ConsumerWidget {
             style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
+          Text(
+            'Settings',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: AppTheme.primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 8),
+          _buildSettingsCard(context, ref),
           const SizedBox(height: 32),
           Text(
             'Data Management',
@@ -66,6 +76,53 @@ class ProfileScreen extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSettingsCard(BuildContext context, WidgetRef ref) {
+    final settingsAsync = ref.watch(settingsProvider);
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: settingsAsync.when(
+        loading: () => const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Center(child: CircularProgressIndicator()),
+        ),
+        error: (e, _) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text('Error: $e'),
+        ),
+        data: (settings) => Column(
+          children: [
+            SwitchListTile(
+              secondary: const Icon(Icons.notifications),
+              title: const Text('Daily Reminder'),
+              subtitle: Text(
+                settings.isReminderEnabled
+                    ? 'At ${settings.reminderTime.format(context)}'
+                    : 'Off',
+              ),
+              value: settings.isReminderEnabled,
+              activeColor: AppTheme.primaryColor,
+              onChanged: (value) async {
+                await ref.read(settingsProvider.notifier).toggleReminder(value);
+                if (value && context.mounted) {
+                  final time = await showTimePicker(
+                    context: context,
+                    initialTime: settings.reminderTime,
+                  );
+                  if (time != null) {
+                    await ref
+                        .read(settingsProvider.notifier)
+                        .setReminderTime(time);
+                  }
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
