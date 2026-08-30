@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:isar/isar.dart';
@@ -75,6 +77,7 @@ class ExportService {
     final file = File('${dir.path}/$fileName');
     await file.writeAsString(csvString);
     
+    // ignore: deprecated_member_use
     await Share.shareXFiles([XFile(file.path)], text: 'Exported $fileName');
   }
 
@@ -119,20 +122,21 @@ class ExportService {
     final file = File('${dir.path}/habitflow_backup.json');
     await file.writeAsString(jsonString);
 
+    // ignore: deprecated_member_use
     await Share.shareXFiles([XFile(file.path)], text: 'HabitFlow Full Backup');
   }
 
   Future<bool> restoreBackupFromJson() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         type: FileType.any,
       );
 
-      if (result == null || result.files.single.path == null) {
+      if (result.isEmpty || result.single.path == null) {
         return false; // User canceled
       }
 
-      final file = File(result.files.single.path!);
+      final file = File(result.single.path!);
       final jsonString = await file.readAsString();
       final Map<String, dynamic> data = jsonDecode(jsonString);
 

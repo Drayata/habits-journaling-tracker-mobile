@@ -9,11 +9,13 @@
       "dependencies": [
         "csv",
         "cupertino_icons",
+        "file_picker",
         "flutter",
         "flutter_riverpod",
         "isar",
         "isar_flutter_libs",
-        "path_provider"
+        "path_provider",
+        "share_plus"
       ],
       "devDependencies": [
         "build_runner",
@@ -100,6 +102,40 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "file_picker",
+      "version": "12.1.2",
+      "dependencies": [
+        "android_file_picker",
+        "cross_file",
+        "file_picker_darwin",
+        "file_picker_linux",
+        "file_picker_platform_interface",
+        "file_picker_web",
+        "flutter",
+        "windows_file_picker"
+      ]
+    },
+    {
+      "name": "share_plus",
+      "version": "13.3.0",
+      "dependencies": [
+        "cross_file",
+        "ffi",
+        "file",
+        "flutter",
+        "flutter_web_plugins",
+        "meta",
+        "mime",
+        "share_plus_platform_interface",
+        "url_launcher_linux",
+        "url_launcher_platform_interface",
+        "url_launcher_web",
+        "url_launcher_windows",
+        "web",
+        "win32"
       ]
     },
     {
@@ -589,6 +625,72 @@
       ]
     },
     {
+      "name": "file_picker_platform_interface",
+      "version": "3.2.0",
+      "dependencies": [
+        "cross_file",
+        "flutter",
+        "path",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "file_picker_darwin",
+      "version": "1.0.4",
+      "dependencies": [
+        "cross_file",
+        "file_picker_platform_interface",
+        "flutter",
+        "path"
+      ]
+    },
+    {
+      "name": "web",
+      "version": "1.1.1",
+      "dependencies": []
+    },
+    {
+      "name": "url_launcher_platform_interface",
+      "version": "2.3.2",
+      "dependencies": [
+        "flutter",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "share_plus_platform_interface",
+      "version": "7.2.0",
+      "dependencies": [
+        "cross_file",
+        "flutter",
+        "meta",
+        "mime",
+        "path_provider",
+        "plugin_platform_interface",
+        "uuid"
+      ]
+    },
+    {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "file",
+      "version": "7.0.1",
+      "dependencies": [
+        "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "ffi",
+      "version": "2.2.0",
+      "dependencies": []
+    },
+    {
       "name": "state_notifier",
       "version": "1.0.0",
       "dependencies": [
@@ -656,11 +758,6 @@
       ]
     },
     {
-      "name": "ffi",
-      "version": "2.2.0",
-      "dependencies": []
-    },
-    {
       "name": "sky_engine",
       "version": "0.0.0",
       "dependencies": []
@@ -694,14 +791,6 @@
       ]
     },
     {
-      "name": "file",
-      "version": "7.0.1",
-      "dependencies": [
-        "meta",
-        "path"
-      ]
-    },
-    {
       "name": "time",
       "version": "2.1.6",
       "dependencies": [
@@ -728,11 +817,6 @@
       "dependencies": [
         "web"
       ]
-    },
-    {
-      "name": "web",
-      "version": "1.1.1",
-      "dependencies": []
     },
     {
       "name": "json_annotation",
@@ -915,6 +999,140 @@
         "collection",
         "meta",
         "pub_semver"
+      ]
+    },
+    {
+      "name": "cross_file",
+      "version": "0.3.5+5",
+      "dependencies": [
+        "meta",
+        "web"
+      ]
+    },
+    {
+      "name": "url_launcher_windows",
+      "version": "3.1.6",
+      "dependencies": [
+        "flutter",
+        "meta",
+        "url_launcher_platform_interface"
+      ]
+    },
+    {
+      "name": "url_launcher_web",
+      "version": "2.4.3",
+      "dependencies": [
+        "flutter",
+        "flutter_web_plugins",
+        "url_launcher_platform_interface",
+        "web"
+      ]
+    },
+    {
+      "name": "url_launcher_linux",
+      "version": "3.2.3",
+      "dependencies": [
+        "flutter",
+        "meta",
+        "url_launcher_platform_interface"
+      ]
+    },
+    {
+      "name": "file_picker_linux",
+      "version": "1.0.2",
+      "dependencies": [
+        "cross_file",
+        "dbus",
+        "file_picker_platform_interface",
+        "flutter",
+        "path"
+      ]
+    },
+    {
+      "name": "dbus",
+      "version": "0.7.15",
+      "dependencies": [
+        "args",
+        "ffi",
+        "meta",
+        "xml"
+      ]
+    },
+    {
+      "name": "xml",
+      "version": "7.0.1",
+      "dependencies": [
+        "collection",
+        "meta",
+        "petitparser"
+      ]
+    },
+    {
+      "name": "petitparser",
+      "version": "7.0.2",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
+    },
+    {
+      "name": "windows_file_picker",
+      "version": "1.1.0",
+      "dependencies": [
+        "cross_file",
+        "ffi",
+        "file_picker_platform_interface",
+        "flutter",
+        "meta",
+        "path",
+        "win32"
+      ]
+    },
+    {
+      "name": "win32",
+      "version": "6.4.0",
+      "dependencies": [
+        "ffi",
+        "ffi_leak_tracker",
+        "meta"
+      ]
+    },
+    {
+      "name": "ffi_leak_tracker",
+      "version": "0.1.2",
+      "dependencies": [
+        "ffi"
+      ]
+    },
+    {
+      "name": "file_picker_web",
+      "version": "3.0.3",
+      "dependencies": [
+        "cross_file",
+        "file_picker_platform_interface",
+        "flutter",
+        "flutter_web_plugins",
+        "meta",
+        "path",
+        "web"
+      ]
+    },
+    {
+      "name": "android_file_picker",
+      "version": "1.0.3",
+      "dependencies": [
+        "cross_file",
+        "file_picker_platform_interface",
+        "flutter",
+        "path"
+      ]
+    },
+    {
+      "name": "uuid",
+      "version": "4.6.0",
+      "dependencies": [
+        "crypto",
+        "fixnum"
       ]
     }
   ],

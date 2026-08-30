@@ -60,7 +60,6 @@ class StatsScreen extends ConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
-    final habits = habitsAsync.valueOrNull ?? [];
     final journals = journalAsync.valueOrNull ?? [];
     final sleeps = sleepAsync.valueOrNull ?? [];
 
@@ -79,7 +78,6 @@ class StatsScreen extends ConsumerWidget {
     // Habit Completion Rate
     // Basic calculation: (total completions / total possible completions today)
     // If we just want a simple aggregated metric:
-    int totalPossible = habits.length;
     // Assuming we have a provider for today's completed habit IDs
     // For this simple stat, we'll just show "Active Habits" or a placeholder if we don't have historical completions loaded here.
     
@@ -192,10 +190,10 @@ class _StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: color.withOpacity(0.1),
+      color: color.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: color.withOpacity(0.2)),
+        side: BorderSide(color: color.withValues(alpha: 0.2)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

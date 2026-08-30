@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/dashboard_providers.dart';
+import '../../providers/sleep_provider.dart';
 import '../theme.dart';
 import '../widgets/heatmap_grid.dart';
 import '../widgets/progress_ring.dart';
+import '../widgets/sleep_input_sheet.dart';
+import 'profile_screen.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -13,12 +16,28 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final statsAsync = ref.watch(todayStatsProvider);
     final heatmapAsync = ref.watch(heatmapDataProvider);
+    final todaySleepAsync = ref.watch(todaySleepProvider);
 
     return CustomScrollView(
       slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.person, color: AppTheme.primaryColor),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                );
+              },
+            ),
+          ],
+        ),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -72,6 +91,50 @@ class DashboardScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Sleep',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 8),
+                          todaySleepAsync.when(
+                            loading: () => const Text('Loading...'),
+                            error: (e, _) => const Text('Error'),
+                            data: (sleep) => Text(
+                              sleep != null
+                                  ? '${sleep.hours.toStringAsFixed(1)} hours logged'
+                                  : 'No sleep logged yet',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: Colors.grey.shade600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit_calendar),
+                      color: AppTheme.primaryColor,
+                      onPressed: () => SleepInputSheet.show(context),
                     ),
                   ],
                 ),

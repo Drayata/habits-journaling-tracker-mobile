@@ -39,6 +39,8 @@ dependencies:
   path_provider: ^2.1.6
   csv: ^8.0.0
   flutter_riverpod: ^2.6.1
+  share_plus: ^13.3.0
+  file_picker: ^12.1.2
 
 dev_dependencies:
   flutter_test:
