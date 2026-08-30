@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers/database_provider.dart';
+import 'ui/screens/main_layout.dart';
+import 'ui/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,36 +18,27 @@ class HabitsJournalingApp extends StatelessWidget {
     return MaterialApp(
       title: 'Habits & Journal',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
+      theme: AppTheme.light,
+      home: const _AppLoader(),
     );
   }
 }
 
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+class _AppLoader extends ConsumerWidget {
+  const _AppLoader();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dbAsync = ref.watch(databaseProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Habits & Journal'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    return dbAsync.when(
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
       ),
-      body: dbAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('Database error: $error'),
-        ),
-        data: (_) => const Center(
-          child: Text('Database ready. UI coming soon.'),
-        ),
+      error: (error, _) => Scaffold(
+        body: Center(child: Text('Database error: $error')),
       ),
+      data: (_) => const MainLayout(),
     );
   }
 }
