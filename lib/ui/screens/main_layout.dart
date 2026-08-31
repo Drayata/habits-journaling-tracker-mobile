@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:habits_journaling_tracker_mobile/l10n/gen/app_localizations.dart';
+
 import '../theme.dart';
 import 'dashboard_screen.dart';
 import 'habits_screen.dart';
@@ -26,6 +28,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -38,22 +41,22 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_rounded),
-            label: 'Dashboard',
+            icon: const Icon(Icons.dashboard_rounded),
+            label: l10n.navDashboard,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline),
-            label: 'Habits',
+            icon: const Icon(Icons.check_circle_outline),
+            label: l10n.navHabits,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book_rounded),
-            label: 'Journal',
+            icon: const Icon(Icons.book_rounded),
+            label: l10n.navJournal,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Stats',
+            icon: const Icon(Icons.bar_chart),
+            label: l10n.navStats,
           ),
         ],
       ),
@@ -65,14 +68,6 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
     if (_currentIndex == 1) {
       return FloatingActionButton(
         onPressed: () => HabitsScreen.showAddDialog(context, ref),
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-        child: const Icon(Icons.add),
-      );
-    }
-    if (_currentIndex == 2) {
-      return FloatingActionButton(
-        onPressed: () => JournalScreen.showAddDialog(context, ref),
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
         child: const Icon(Icons.add),

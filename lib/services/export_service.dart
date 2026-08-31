@@ -159,12 +159,29 @@ class ExportService {
         ..date = DateTime.parse(l['date'])
         ..isCompleted = l['isCompleted']).toList();
 
-      final journals = (data['journals'] as List).map((j) => JournalEntry()
-        ..id = j['id']
-        ..date = DateTime.parse(j['date'])
-        ..title = j['title']
-        ..content = j['content']
-        ..mood = j['mood']).toList();
+      final journals = (data['journals'] as List).map((j) {
+        int parsedMood;
+        if (j['mood'] is String) {
+          switch (j['mood']) {
+            case 'Great': parsedMood = 5; break;
+            case 'Good': parsedMood = 4; break;
+            case 'Neutral': parsedMood = 3; break;
+            case 'Okay': parsedMood = 3; break;
+            case 'Bad': parsedMood = 2; break;
+            case 'Terrible': parsedMood = 1; break;
+            case 'Awful': parsedMood = 1; break;
+            default: parsedMood = 3;
+          }
+        } else {
+          parsedMood = j['mood'] as int? ?? 3;
+        }
+        return JournalEntry()
+          ..id = j['id']
+          ..date = DateTime.parse(j['date'])
+          ..title = j['title'] ?? ''
+          ..content = j['content'] ?? ''
+          ..mood = parsedMood;
+      }).toList();
 
       final sleeps = (data['sleepLogs'] as List).map((s) => SleepLog()
         ..id = s['id']

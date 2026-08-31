@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/habit.dart';
 import '../../providers/dashboard_providers.dart';
 import '../../providers/habits_provider.dart';
+import 'package:habits_journaling_tracker_mobile/l10n/gen/app_localizations.dart';
 import '../theme.dart';
 
 class HabitsScreen extends ConsumerWidget {
@@ -12,19 +13,20 @@ class HabitsScreen extends ConsumerWidget {
   static void showAddDialog(BuildContext context, WidgetRef ref) {
     final nameController = TextEditingController();
     final descController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('New Habit'),
+        title: Text(l10n.newHabit),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Habit name',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.habitName,
+                border: const OutlineInputBorder(),
               ),
               textCapitalization: TextCapitalization.sentences,
               autofocus: true,
@@ -32,9 +34,9 @@ class HabitsScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             TextField(
               controller: descController,
-              decoration: const InputDecoration(
-                labelText: 'Description (optional)',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.descriptionOptional,
+                border: const OutlineInputBorder(),
               ),
               textCapitalization: TextCapitalization.sentences,
             ),
@@ -43,7 +45,7 @@ class HabitsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -58,7 +60,7 @@ class HabitsScreen extends ConsumerWidget {
                 Navigator.pop(ctx);
               }
             },
-            child: const Text('Add'),
+            child: Text(l10n.add),
           ),
         ],
       ),
@@ -74,6 +76,7 @@ class HabitsScreen extends ConsumerWidget {
     final completedIdsAsync = ref.watch(todayCompletedHabitIdsProvider);
     final selectedDate = ref.watch(selectedDateProvider);
 
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         // Header
@@ -86,7 +89,7 @@ class HabitsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Habits',
+                      l10n.navHabits,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 2),
@@ -121,7 +124,7 @@ class HabitsScreen extends ConsumerWidget {
                           size: 64, color: Colors.grey.shade300),
                       const SizedBox(height: 16),
                       Text(
-                        'No habits yet',
+                        l10n.noHabitsYet,
                         style:
                             Theme.of(context).textTheme.titleMedium?.copyWith(
                                   color: Colors.grey.shade500,
@@ -129,7 +132,7 @@ class HabitsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Tap + to create your first habit',
+                        l10n.tapToCreateHabit,
                         style:
                             Theme.of(context).textTheme.bodySmall?.copyWith(
                                   color: Colors.grey.shade400,
@@ -450,15 +453,16 @@ class _HabitTile extends ConsumerWidget {
   }
 
   void _showDeleteDialog(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Habit'),
-        content: Text('Delete "${habit.name}" and all its logs?'),
+        title: Text(l10n.deleteHabit),
+        content: Text(l10n.deleteHabitConfirm(habit.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -466,7 +470,7 @@ class _HabitTile extends ConsumerWidget {
               Navigator.pop(ctx);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -488,6 +492,7 @@ class _ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final rate = total > 0 ? (completed / total) : 0.0;
     final percentage = (rate * 100).round();
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -509,7 +514,7 @@ class _ProgressBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Today's Progress",
+                l10n.todaysProgress,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

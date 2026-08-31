@@ -1,0 +1,212 @@
+{
+  "@@locale": "id",
+  
+  "profile": "Profile",
+  "goodMorning": "Selamat Pagi",
+  "goodAfternoon": "Selamat Siang",
+  "goodEvening": "Selamat Malam",
+  "viewingMonthWarning": "Melihat {month}. Progress harian tetap mengikuti tanggal yang dipilih di Habits.",
+  "@viewingMonthWarning": {
+    "placeholders": {
+      "month": { "type": "String" }
+    }
+  },
+  "todaysProgress": "Progress Hari Ini",
+  "progressWithDate": "Progress · {date}",
+  "@progressWithDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "useToday": "Kembali ke hari ini",
+  "unableToLoadProgress": "Gagal memuat progress: {error}",
+  "@unableToLoadProgress": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "habitsCompletedRatio": "{completed} dari {total} habit selesai",
+  "@habitsCompletedRatio": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "sleepWithDate": "Tidur · {date}",
+  "@sleepWithDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "loading": "Memuat…",
+  "unableToLoadSleepLog": "Gagal memuat log tidur",
+  "tapToLogSleep": "Tap untuk mencatat jam tidur",
+  "hoursLogged": "{hours} jam tercatat",
+  "@hoursLogged": {
+    "placeholders": {
+      "hours": { "type": "String" }
+    }
+  },
+  "activityHeatmapMonth": "Heatmap Aktivitas · {month}",
+  "@activityHeatmapMonth": {
+    "placeholders": {
+      "month": { "type": "String" }
+    }
+  },
+  "unableToLoadHeatmap": "Gagal memuat heatmap: {error}",
+  "@unableToLoadHeatmap": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  
+  "profileAndSettings": "Profile & Pengaturan",
+  "myProfile": "My Profile",
+  "settings": "Pengaturan",
+  "dataManagement": "Manajemen Data",
+  "exportDataToCsv": "Export Data ke CSV",
+  "habitsLogsAndJournals": "Habit, log, dan journal",
+  "backupDataJson": "Backup Data (JSON)",
+  "fullStructuredBackup": "Backup semua struktur data",
+  "restoreData": "Restore Data",
+  "restoreFromJsonBackup": "Restore dari file backup JSON",
+  "dailyReminder": "Daily Reminder",
+  "atTime": "Pukul {time}",
+  "@atTime": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "off": "Mati",
+  "csvExportCompleted": "Export CSV selesai",
+  "exportFailed": "Export gagal: {error}",
+  "@exportFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "backupCompleted": "Backup berhasil dibuat",
+  "backupFailed": "Backup gagal: {error}",
+  "@backupFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "dataRestoredSuccessfully": "Data berhasil di-restore",
+  "restoreCanceled": "Restore dibatalkan",
+  "restoreFailed": "Restore gagal: {error}",
+  "@restoreFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "language": "Bahasa",
+  
+  "newHabit": "Tambah Habit",
+  "habitName": "Nama habit",
+  "descriptionOptional": "Deskripsi (opsional)",
+  "cancel": "Batal",
+  "add": "Tambah",
+  "failedToSaveHabit": "Gagal menyimpan habit: {error}",
+  "@failedToSaveHabit": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "habits": "Habit",
+  "habitsDoneRatio": "{completed}/{total} selesai",
+  "@habitsDoneRatio": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "today": "Hari Ini",
+  "unableToLoadHabits": "Gagal memuat habit: {error}",
+  "@unableToLoadHabits": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "unableToLoadCompletionData": "Gagal memuat data progress: {error}",
+  "@unableToLoadCompletionData": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "noActiveHabits": "Belum ada habit aktif untuk hari ini",
+  "habitsCreatedAfterExcluded": "Habit yang dibuat setelah tanggal yang dipilih sengaja disembunyikan.",
+  "deleteHabit": "Hapus Habit",
+  "deleteHabitConfirmation": "Hapus \"{habitName}\" beserta seluruh progress-nya?",
+  "@deleteHabitConfirmation": {
+    "placeholders": {
+      "habitName": { "type": "String" }
+    }
+  },
+  "delete": "Hapus",
+  "markIncomplete": "Tandai belum selesai",
+  "markComplete": "Tandai selesai",
+  "dailyProgress": "Progress Harian",
+  "sleepTracker": "Jam Tidur",
+  
+  "logSleep": "Catat Jam Tidur",
+  "timeInBed": "Waktu tidur",
+  "xHours": "{hours} jam",
+  "@xHours": {
+    "placeholders": {
+      "hours": { "type": "String" }
+    }
+  },
+  "notesOptional": "Catatan (opsional)",
+  "howDidYouSleep": "Bagaimana tidurmu hari ini?",
+  "save": "Simpan",
+  "unableToSaveSleepLog": "Gagal menyimpan log tidur: {error}",
+  "@unableToSaveSleepLog": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  
+  "journal": "Jurnal",
+  "todaysEntry": "Catatan Hari Ini",
+  "journalHint": "Tulis tentang harimu, evaluasi progress-mu...",
+  "cannotAddJournalFuture": "Tidak bisa menambah jurnal untuk hari yang belum terjadi.",
+  "journalAutoSaveHint": "💡 Journal kamu auto-save setiap kali mengetik. Santai aja.",
+  "howAreYouFeeling": "Gimana perasaanmu hari ini?",
+  "errorMessage": "Error: {error}",
+  "@errorMessage": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "failedToSave": "Gagal menyimpan: {error}",
+  "@failedToSave": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  
+  "moodAwful": "Buruk",
+  "moodBad": "Jelek",
+  "moodOkay": "Biasa aja",
+  "moodGood": "Oke",
+  "moodGreat": "Senang",
+  
+  "statistics": "Statistik",
+  "completionRate": "Completion Rate",
+  "ratePercentage": "{rate}%",
+  "@ratePercentage": {
+    "placeholders": {
+      "rate": { "type": "String" }
+    }
+  },
+  "activeHabits": "Habit Aktif",
+  "averageSleep": "Rata-rata Tidur",
+  "habitConsistency": "Konsistensi Habit",
+  "moodCorrelation": "Korelasi Mood",
+  "noMoodData": "Belum ada data mood bulan ini.",
+  
+  "navHabits": "Habit",
+  "navJournal": "Jurnal",
+  "navStats": "Statistik"
+}

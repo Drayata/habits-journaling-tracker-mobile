@@ -18,17 +18,26 @@ class JournalNotifier extends AsyncNotifier<List<JournalEntry>> {
     return _isar.journalEntrys.where().sortByDateDesc().findAll();
   }
 
-  Future<void> addEntry({
-    required String title,
-    required String content,
-    required String mood,
-    DateTime? date,
+  Future<void> saveEntry({
+    String? title,
+    String? content,
+    int? mood,
+    required DateTime date,
   }) async {
-    final entry = JournalEntry()
-      ..title = title
-      ..content = content
-      ..mood = mood
-      ..date = date ?? DateTime.now();
+    final normalizedDate = DateTime(date.year, date.month, date.day);
+    
+    final existing = await _isar.journalEntrys
+        .filter()
+        .dateEqualTo(normalizedDate)
+        .findFirst();
+
+    final entry = existing ?? JournalEntry()
+      ..date = normalizedDate;
+
+    if (title != null) entry.title = title;
+    if (content != null) entry.content = content;
+    if (mood != null) entry.mood = mood;
+    entry.updatedAt = DateTime.now();
 
     await _isar.writeTxn(() => _isar.journalEntrys.put(entry));
 
@@ -38,6 +47,7 @@ class JournalNotifier extends AsyncNotifier<List<JournalEntry>> {
   }
 
   Future<void> updateEntry(JournalEntry entry) async {
+    entry.updatedAt = DateTime.now();
     await _isar.writeTxn(() => _isar.journalEntrys.put(entry));
 
     state = AsyncData(

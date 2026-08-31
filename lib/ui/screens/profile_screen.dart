@@ -3,17 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/database_provider.dart';
 import '../../providers/settings_provider.dart';
+import '../../providers/locale_provider.dart';
 import '../../services/export_service.dart';
 import '../theme.dart';
+import 'package:habits_journaling_tracker_mobile/l10n/gen/app_localizations.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile & Settings'),
+        title: Text(l10n.profileAndSettings),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -26,22 +29,22 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'My Profile',
+            l10n.myProfile,
             style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
           Text(
-            'Settings',
+            l10n.settings,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppTheme.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
           ),
           const SizedBox(height: 8),
-          _buildSettingsCard(context, ref),
+          _buildSettingsCard(context, ref, l10n),
           const SizedBox(height: 32),
           Text(
-            'Data Management',
+            l10n.dataManagement,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppTheme.primaryColor,
                   fontWeight: FontWeight.bold,
@@ -54,23 +57,23 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 ListTile(
                   leading: const Icon(Icons.table_chart_outlined),
-                  title: const Text('Export Data to CSV'),
-                  subtitle: const Text('Habits, logs, and journals'),
-                  onTap: () => _exportToCsv(context, ref),
+                  title: Text(l10n.exportDataToCsv),
+                  subtitle: Text(l10n.habitsLogsAndJournals),
+                  onTap: () => _exportToCsv(context, ref, l10n),
                 ),
                 const Divider(height: 1),
                 ListTile(
                   leading: const Icon(Icons.save_outlined),
-                  title: const Text('Backup Data (JSON)'),
-                  subtitle: const Text('Full structured backup'),
-                  onTap: () => _exportToJson(context, ref),
+                  title: Text(l10n.backupDataJson),
+                  subtitle: Text(l10n.fullStructuredBackup),
+                  onTap: () => _exportToJson(context, ref, l10n),
                 ),
                 const Divider(height: 1),
                 ListTile(
                   leading: const Icon(Icons.restore),
-                  title: const Text('Restore Data'),
-                  subtitle: const Text('Restore from JSON backup'),
-                  onTap: () => _restoreFromJson(context, ref),
+                  title: Text(l10n.restoreData),
+                  subtitle: Text(l10n.restoreFromJsonBackup),
+                  onTap: () => _restoreFromJson(context, ref, l10n),
                 ),
               ],
             ),
@@ -80,8 +83,9 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSettingsCard(BuildContext context, WidgetRef ref) {
+  Widget _buildSettingsCard(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
     final settingsAsync = ref.watch(settingsProvider);
+    final locale = ref.watch(localeProvider);
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -92,20 +96,35 @@ class ProfileScreen extends ConsumerWidget {
         ),
         error: (e, _) => Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text('Error: $e'),
+          child: Text(l10n.errorMessage(e.toString())),
         ),
         data: (settings) => Column(
           children: [
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: Text(l10n.language),
+              trailing: SegmentedButton<Locale>(
+                segments: const [
+                  ButtonSegment(value: Locale('en'), label: Text('EN')),
+                  ButtonSegment(value: Locale('id'), label: Text('ID')),
+                ],
+                selected: {locale},
+                onSelectionChanged: (Set<Locale> newSelection) {
+                  ref.read(localeProvider.notifier).setLocale(newSelection.first);
+                },
+              ),
+            ),
+            const Divider(height: 1),
             SwitchListTile(
               secondary: const Icon(Icons.notifications),
-              title: const Text('Daily Reminder'),
+              title: Text(l10n.dailyReminder),
               subtitle: Text(
                 settings.isReminderEnabled
-                    ? 'At ${settings.reminderTime.format(context)}'
-                    : 'Off',
+                    ? l10n.atTime(settings.reminderTime.format(context))
+                    : l10n.off,
               ),
               value: settings.isReminderEnabled,
-              activeColor: AppTheme.primaryColor,
+              activeThumbColor: AppTheme.primaryColor,
               onChanged: (value) async {
                 await ref.read(settingsProvider.notifier).toggleReminder(value);
                 if (value && context.mounted) {
@@ -127,7 +146,7 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _exportToCsv(BuildContext context, WidgetRef ref) async {
+  Future<void> _exportToCsv(BuildContext context, WidgetRef ref, AppLocalizations l10n) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       final isar = await ref.read(databaseProvider.future);
@@ -137,16 +156,16 @@ class ProfileScreen extends ConsumerWidget {
       await exportService.exportJournalEntries();
       
       scaffoldMessenger.showSnackBar(
-        const SnackBar(content: Text('CSV Export completed')),
+        SnackBar(content: Text(l10n.csvExportCompleted)),
       );
     } catch (e) {
       scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text('Export failed: $e')),
+        SnackBar(content: Text(l10n.exportFailed(e.toString()))),
       );
     }
   }
 
-  Future<void> _exportToJson(BuildContext context, WidgetRef ref) async {
+  Future<void> _exportToJson(BuildContext context, WidgetRef ref, AppLocalizations l10n) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       final isar = await ref.read(databaseProvider.future);
@@ -154,16 +173,16 @@ class ProfileScreen extends ConsumerWidget {
       await exportService.exportBackupToJson();
       
       scaffoldMessenger.showSnackBar(
-        const SnackBar(content: Text('Backup completed')),
+        SnackBar(content: Text(l10n.backupCompleted)),
       );
     } catch (e) {
       scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text('Backup failed: $e')),
+        SnackBar(content: Text(l10n.backupFailed(e.toString()))),
       );
     }
   }
 
-  Future<void> _restoreFromJson(BuildContext context, WidgetRef ref) async {
+  Future<void> _restoreFromJson(BuildContext context, WidgetRef ref, AppLocalizations l10n) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       final isar = await ref.read(databaseProvider.future);
@@ -173,16 +192,16 @@ class ProfileScreen extends ConsumerWidget {
       
       if (success) {
         scaffoldMessenger.showSnackBar(
-          const SnackBar(content: Text('Data restored successfully')),
+          SnackBar(content: Text(l10n.dataRestoredSuccessfully)),
         );
       } else {
         scaffoldMessenger.showSnackBar(
-          const SnackBar(content: Text('Restore canceled')),
+          SnackBar(content: Text(l10n.restoreCanceled)),
         );
       }
     } catch (e) {
       scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text('Restore failed: $e')),
+        SnackBar(content: Text(l10n.restoreFailed(e.toString()))),
       );
     }
   }

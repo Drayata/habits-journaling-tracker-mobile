@@ -1,0 +1,236 @@
+{
+  "@@locale": "en",
+  
+  "profile": "Profile",
+  "goodMorning": "Good Morning",
+  "goodAfternoon": "Good Afternoon",
+  "goodEvening": "Good Evening",
+  "viewingMonthWarning": "Viewing {month}. Daily check-ins still follow the selected date from Habits.",
+  "@viewingMonthWarning": {
+    "placeholders": {
+      "month": { "type": "String" }
+    }
+  },
+  "todaysProgress": "Today's Progress",
+  "progressWithDate": "Progress · {date}",
+  "@progressWithDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "useToday": "Use today",
+  "unableToLoadProgress": "Unable to load progress: {error}",
+  "@unableToLoadProgress": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "habitsCompletedRatio": "{completed} of {total} habits",
+  "@habitsCompletedRatio": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "sleepWithDate": "Sleep · {date}",
+  "@sleepWithDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "loading": "Loading…",
+  "unableToLoadSleepLog": "Unable to load sleep log",
+  "tapToLogSleep": "Tap to log sleep",
+  "hoursLogged": "{hours} hours logged",
+  "@hoursLogged": {
+    "placeholders": {
+      "hours": { "type": "String" }
+    }
+  },
+  "activityHeatmapMonth": "Activity Heatmap · {month}",
+  "@activityHeatmapMonth": {
+    "placeholders": {
+      "month": { "type": "String" }
+    }
+  },
+  "unableToLoadHeatmap": "Unable to load heatmap: {error}",
+  "@unableToLoadHeatmap": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  
+  "profileAndSettings": "Profile & Settings",
+  "myProfile": "My Profile",
+  "settings": "Settings",
+  "dataManagement": "Data Management",
+  "exportDataToCsv": "Export Data to CSV",
+  "habitsLogsAndJournals": "Habits, logs, and journals",
+  "backupDataJson": "Backup Data (JSON)",
+  "fullStructuredBackup": "Full structured backup",
+  "restoreData": "Restore Data",
+  "restoreFromJsonBackup": "Restore from JSON backup",
+  "dailyReminder": "Daily Reminder",
+  "atTime": "At {time}",
+  "@atTime": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "off": "Off",
+  "csvExportCompleted": "CSV Export completed",
+  "exportFailed": "Export failed: {error}",
+  "@exportFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "backupCompleted": "Backup completed",
+  "backupFailed": "Backup failed: {error}",
+  "@backupFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "dataRestoredSuccessfully": "Data restored successfully",
+  "restoreCanceled": "Restore canceled",
+  "restoreFailed": "Restore failed: {error}",
+  "@restoreFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "language": "Language",
+  
+  "newHabit": "New Habit",
+  "habitName": "Habit name",
+  "descriptionOptional": "Description (optional)",
+  "cancel": "Cancel",
+  "add": "Add",
+  "failedToSaveHabit": "Failed to save habit: {error}",
+  "@failedToSaveHabit": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "habits": "Habits",
+  "habitsDoneRatio": "{completed}/{total} done",
+  "@habitsDoneRatio": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "today": "Today",
+  "unableToLoadHabits": "Unable to load habits: {error}",
+  "@unableToLoadHabits": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "unableToLoadCompletionData": "Unable to load completion data: {error}",
+  "@unableToLoadCompletionData": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "noActiveHabits": "No active habits for this date",
+  "habitsCreatedAfterExcluded": "Habits created after the selected date are intentionally excluded.",
+  "deleteHabit": "Delete Habit",
+  "deleteHabitConfirmation": "Delete \"{habitName}\" and all its logs?",
+  "@deleteHabitConfirmation": {
+    "placeholders": {
+      "habitName": { "type": "String" }
+    }
+  },
+  "delete": "Delete",
+  "markIncomplete": "Mark incomplete",
+  "markComplete": "Mark complete",
+  "dailyProgress": "Daily Progress",
+  "sleepTracker": "Sleep Tracker",
+  
+  "logSleep": "Log Sleep",
+  "timeInBed": "Time in bed",
+  "xHours": "{hours} hours",
+  "@xHours": {
+    "placeholders": {
+      "hours": { "type": "String" }
+    }
+  },
+  "notesOptional": "Notes (optional)",
+  "howDidYouSleep": "How did you sleep?",
+  "save": "Save",
+  "unableToSaveSleepLog": "Unable to save sleep log: {error}",
+  "@unableToSaveSleepLog": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  
+  "journal": "Journal",
+  "todaysEntry": "Today's Entry",
+  "journalHint": "Write about your day, reflect on your progress...",
+  "cannotAddJournalFuture": "Cannot add journal entries for future dates.",
+  "journalAutoSaveHint": "💡 Your journal auto-saves as you type. Take your time.",
+  "howAreYouFeeling": "How are you feeling?",
+  "errorMessage": "Error: {error}",
+  "@errorMessage": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "failedToSave": "Failed to save: {error}",
+  "@failedToSave": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  
+  "moodAwful": "Awful",
+  "moodBad": "Bad",
+  "moodOkay": "Okay",
+  "moodGood": "Good",
+  "moodGreat": "Great",
+  
+  "statistics": "Statistics",
+  "completionRate": "Completion Rate",
+  "ratePercentage": "{rate}%",
+  "@ratePercentage": {
+    "placeholders": {
+      "rate": { "type": "String" }
+    }
+  },
+  "activeHabits": "Active Habits",
+  "averageSleep": "Average Sleep",
+  "habitConsistency": "Habit Consistency",
+  "moodCorrelation": "Mood Correlation",
+  "noMoodData": "No mood data available for this month.",
+  "habitInsightsFor": "Habit insights for {month}",
+  "@habitInsightsFor": {
+    "placeholders": {
+      "month": { "type": "String" }
+    }
+  },
+  "unableToLoadStatistics": "Unable to load statistics: {error}",
+  "@unableToLoadStatistics": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "dailyCompletionRate": "Daily Completion Rate",
+  "sleepDurationHours": "Sleep Duration (Hours)",
+  "moodVsHabitCompletion": "Mood vs. Habit Completion",
+  "avgCompletionGroupedByMood": "Average completion rate grouped by daily mood",
+  "avgCompletion": "Avg Completion",
+  "bestDay": "Best Day",
+  "activeDays": "Active Days",
+  "avgSleep": "Avg Sleep",
+  "noCompletionData": "No completion data",
+  "noSleepData": "No sleep data",
+  "saveSleepLog": "Save Sleep Log",
+  
+  "navDashboard": "Dashboard",
+  "navHabits": "Habits",
+  "navJournal": "Journal",
+  "navStats": "Stats"
+}

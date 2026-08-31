@@ -272,6 +272,12 @@
       "languageVersion": "3.10"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///C:/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "3.11"
+    },
+    {
       "name": "flutter_riverpod",
       "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_riverpod-2.6.1",
       "packageUri": "lib/",
@@ -282,6 +288,12 @@
       "rootUri": "file:///C:/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.11"
+    },
+    {
+      "name": "flutter_timezone",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_timezone-1.0.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_web_plugins",
@@ -330,6 +342,12 @@
       "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/fadhol/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.20.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
     },
     {
       "name": "io",

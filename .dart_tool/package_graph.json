@@ -12,7 +12,10 @@
         "file_picker",
         "flutter",
         "flutter_local_notifications",
+        "flutter_localizations",
         "flutter_riverpod",
+        "flutter_timezone",
+        "intl",
         "isar",
         "isar_flutter_libs",
         "path_provider",
@@ -108,6 +111,24 @@
       ]
     },
     {
+      "name": "flutter_localizations",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter",
+        "intl",
+        "path"
+      ]
+    },
+    {
+      "name": "intl",
+      "version": "0.20.3",
+      "dependencies": [
+        "clock",
+        "meta",
+        "path"
+      ]
+    },
+    {
       "name": "shared_preferences",
       "version": "2.5.5",
       "dependencies": [
@@ -118,6 +139,15 @@
         "shared_preferences_platform_interface",
         "shared_preferences_web",
         "shared_preferences_windows"
+      ]
+    },
+    {
+      "name": "flutter_timezone",
+      "version": "1.0.8",
+      "dependencies": [
+        "flutter",
+        "flutter_web_plugins",
+        "js"
       ]
     },
     {
@@ -722,6 +752,13 @@
       ]
     },
     {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
       "name": "http",
       "version": "1.6.0",
       "dependencies": [
@@ -923,13 +960,6 @@
         "path_provider",
         "plugin_platform_interface",
         "uuid"
-      ]
-    },
-    {
-      "name": "flutter_web_plugins",
-      "version": "0.0.0",
-      "dependencies": [
-        "flutter"
       ]
     },
     {

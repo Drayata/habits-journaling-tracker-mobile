@@ -6,7 +6,7 @@ part 'journal_entry.g.dart';
 class JournalEntry {
   Id id = Isar.autoIncrement;
 
-  @Index()
+  @Index(unique: true, replace: true)
   late DateTime date;
 
   late String title;
@@ -14,5 +14,7 @@ class JournalEntry {
   @Index(type: IndexType.value, caseSensitive: false)
   late String content;
 
-  late String mood;
+  late int mood;
+
+  DateTime? updatedAt;
 }
