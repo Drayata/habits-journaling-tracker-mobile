@@ -17,27 +17,40 @@ class DashboardScreen extends ConsumerWidget {
     final statsAsync = ref.watch(todayStatsProvider);
     final heatmapAsync = ref.watch(heatmapDataProvider);
     final todaySleepAsync = ref.watch(todaySleepProvider);
+    final screenWidth = MediaQuery.sizeOf(context).width;
+
+    // Scale the progress ring based on screen width
+    final ringSize = (screenWidth * 0.38).clamp(140.0, 200.0);
 
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          toolbarHeight: 56,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.person, color: AppTheme.primaryColor),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.person_outline),
+                color: AppTheme.primaryColor,
+                iconSize: 26,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                  );
+                },
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(48, 48),
+                ),
+              ),
             ),
           ],
         ),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+            padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -48,7 +61,7 @@ class DashboardScreen extends ConsumerWidget {
                 const SizedBox(height: 4),
                 Text(
                   _formattedDate(),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.grey.shade600,
                       ),
                 ),
@@ -56,6 +69,7 @@ class DashboardScreen extends ConsumerWidget {
             ),
           ),
         ),
+        // Progress Card
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -70,9 +84,10 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 24),
                     statsAsync.when(
-                      loading: () => const SizedBox(
-                        height: 160,
-                        child: Center(child: CircularProgressIndicator()),
+                      loading: () => SizedBox(
+                        height: ringSize,
+                        child:
+                            const Center(child: CircularProgressIndicator()),
                       ),
                       error: (e, _) => Text('Error loading stats: $e'),
                       data: (stats) => Column(
@@ -80,14 +95,18 @@ class DashboardScreen extends ConsumerWidget {
                           ProgressRing(
                             progress: stats.completionRate,
                             progressColor: AppTheme.successColor,
+                            size: ringSize,
+                            strokeWidth: ringSize * 0.075,
                           ),
                           const SizedBox(height: 16),
                           Text(
                             '${stats.completedToday} of ${stats.totalHabits} habits',
-                            style:
-                                Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: Colors.grey.shade600,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                  color: Colors.grey.shade600,
+                                ),
                           ),
                         ],
                       ),
@@ -98,50 +117,69 @@ class DashboardScreen extends ConsumerWidget {
             ),
           ),
         ),
+        // Sleep Card
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sleep',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 8),
-                          todaySleepAsync.when(
-                            loading: () => const Text('Loading...'),
-                            error: (e, _) => const Text('Error'),
-                            data: (sleep) => Text(
-                              sleep != null
-                                  ? '${sleep.hours.toStringAsFixed(1)} hours logged'
-                                  : 'No sleep logged yet',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: Colors.grey.shade600),
-                            ),
-                          ),
-                        ],
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () => SleepInputSheet.show(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.bedtime,
+                          color: AppTheme.primaryColor,
+                          size: 24,
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.edit_calendar),
-                      color: AppTheme.primaryColor,
-                      onPressed: () => SleepInputSheet.show(context),
-                    ),
-                  ],
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Sleep',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            todaySleepAsync.when(
+                              loading: () => const Text('Loading...'),
+                              error: (e, _) => const Text('Error'),
+                              data: (sleep) => Text(
+                                sleep != null
+                                    ? '${sleep.hours.toStringAsFixed(1)} hours logged'
+                                    : 'Tap to log your sleep',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: Colors.grey.shade600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right,
+                        color: Colors.grey.shade400,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
+        // Heatmap Card
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -158,43 +196,71 @@ class DashboardScreen extends ConsumerWidget {
                     const SizedBox(height: 16),
                     heatmapAsync.when(
                       loading: () => const SizedBox(
-                        height: 100,
-                        child: Center(child: CircularProgressIndicator()),
+                        height: 120,
+                        child:
+                            Center(child: CircularProgressIndicator()),
                       ),
-                      error: (e, _) => Text('Error loading heatmap: $e'),
+                      error: (e, _) =>
+                          Text('Error loading heatmap: $e'),
                       data: (data) => HeatmapGrid(data: data),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     Row(
                       children: [
                         Container(
-                          width: 12,
-                          height: 12,
+                          width: 14,
+                          height: 14,
                           decoration: BoxDecoration(
                             color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(2),
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 8),
                         Text(
                           'No activity',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
                                 color: Colors.grey.shade500,
                               ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 20),
                         Container(
-                          width: 12,
-                          height: 12,
+                          width: 14,
+                          height: 14,
                           decoration: BoxDecoration(
-                            color: AppTheme.successColor,
-                            borderRadius: BorderRadius.circular(2),
+                            color: AppTheme.successColor
+                                .withValues(alpha: 0.4),
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 8),
                         Text(
-                          'Completed',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          'Some',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: Colors.grey.shade500,
+                              ),
+                        ),
+                        const SizedBox(width: 20),
+                        Container(
+                          width: 14,
+                          height: 14,
+                          decoration: BoxDecoration(
+                            color: AppTheme.successColor,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'All done',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
                                 color: Colors.grey.shade500,
                               ),
                         ),

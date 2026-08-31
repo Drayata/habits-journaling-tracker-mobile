@@ -33,11 +33,11 @@ class AppTheme {
           fontWeight: FontWeight.w600,
         ),
         titleLarge: TextStyle(
-          fontSize: 18,
+          fontSize: 22,
           fontWeight: FontWeight.w600,
         ),
         titleMedium: TextStyle(
-          fontSize: 16,
+          fontSize: 17,
           fontWeight: FontWeight.w500,
         ),
         bodyLarge: TextStyle(
@@ -67,6 +67,11 @@ class AppTheme {
         ),
         margin: EdgeInsets.zero,
       ),
+      listTileTheme: const ListTileThemeData(
+        minVerticalPadding: 12,
+        minTileHeight: 56,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
@@ -80,6 +85,13 @@ class AppTheme {
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
