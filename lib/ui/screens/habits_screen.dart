@@ -304,24 +304,27 @@ class DateChip extends StatelessWidget {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = Theme.of(context).colorScheme.primary;
+
     Color bgColor;
     Color textColor;
     Color subtextColor;
     BoxBorder? border;
 
     if (isActive) {
-      bgColor = AppTheme.primaryColor;
+      bgColor = primary;
       textColor = Colors.white;
       subtextColor = Colors.white70;
     } else if (isToday) {
-      bgColor = AppTheme.primaryColor.withValues(alpha: 0.08);
-      textColor = AppTheme.primaryColor;
-      subtextColor = AppTheme.primaryColor.withValues(alpha: 0.6);
-      border = Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3));
+      bgColor = primary.withValues(alpha: 0.15);
+      textColor = primary;
+      subtextColor = primary.withValues(alpha: 0.8);
+      border = Border.all(color: primary.withValues(alpha: 0.4));
     } else {
-      bgColor = Colors.grey.shade100;
-      textColor = Colors.grey.shade700;
-      subtextColor = Colors.grey.shade500;
+      bgColor = isDark ? const Color(0xFF1A1F36) : Colors.grey.shade100;
+      textColor = isDark ? const Color(0xFFCBD5E1) : Colors.grey.shade700;
+      subtextColor = isDark ? const Color(0xFF94A3B8) : Colors.grey.shade500;
     }
 
     return GestureDetector(
@@ -499,8 +502,11 @@ class _ProgressBar extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceColor,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
+        border: Theme.of(context).brightness == Brightness.dark
+            ? Border.all(color: const Color(0xFF282F4A), width: 0.5)
+            : null,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),

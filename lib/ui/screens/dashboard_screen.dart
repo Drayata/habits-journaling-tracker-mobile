@@ -36,7 +36,7 @@ class DashboardScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: 8),
               child: IconButton(
                 icon: const Icon(Icons.person_outline),
-                color: AppTheme.primaryColor,
+                color: Theme.of(context).colorScheme.primary,
                 iconSize: 26,
                 onPressed: () {
                   Navigator.push(
@@ -136,12 +136,12 @@ class DashboardScreen extends ConsumerWidget {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.bedtime,
-                          color: AppTheme.primaryColor,
+                          color: Theme.of(context).colorScheme.primary,
                           size: 24,
                         ),
                       ),

@@ -210,5 +210,10 @@
   
   "navHabits": "Habit",
   "navJournal": "Jurnal",
-  "navStats": "Statistik"
+  "navStats": "Statistik",
+  
+  "theme": "Tema",
+  "themeLight": "Terang",
+  "themeDark": "Gelap",
+  "themeSystem": "Sistem"
 }

@@ -375,4 +375,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navStats => 'Stats';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeSystem => 'System';
 }

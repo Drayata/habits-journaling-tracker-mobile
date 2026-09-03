@@ -69,10 +69,15 @@ class HeatmapGrid extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: count > 0
                           ? AppTheme.successColor.withValues(alpha: opacity)
-                          : Colors.grey.shade200,
+                          : (Theme.of(context).brightness == Brightness.dark
+                              ? const Color(0xFF282F4A)
+                              : Colors.grey.shade200),
                       borderRadius: BorderRadius.circular(6),
                       border: isToday
-                          ? Border.all(color: AppTheme.primaryColor, width: 2)
+                          ? Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 2,
+                            )
                           : null,
                     ),
                   ),

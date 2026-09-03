@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'providers/database_provider.dart';
 import 'providers/locale_provider.dart';
+import 'providers/theme_provider.dart';
 import 'services/notification_service.dart';
 import 'ui/screens/main_layout.dart';
 import 'ui/theme.dart';
@@ -34,6 +35,8 @@ class HabitsJournalingApp extends ConsumerWidget {
       title: 'Prokopa',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ref.watch(themeModeProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

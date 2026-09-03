@@ -727,6 +727,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stats'**
   String get navStats;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
 }
 
 class _AppLocalizationsDelegate

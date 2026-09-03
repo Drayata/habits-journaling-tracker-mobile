@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/database_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/locale_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../services/export_service.dart';
-import '../theme.dart';
 import '../widgets/prokopa_logo.dart';
 import 'package:habits_journaling_tracker_mobile/l10n/gen/app_localizations.dart';
 
@@ -15,6 +15,8 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final primaryColor = Theme.of(context).colorScheme.primary;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.profileAndSettings),
@@ -37,10 +39,11 @@ class ProfileScreen extends ConsumerWidget {
                 ),
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: 24),
           Text(
             l10n.settings,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: AppTheme.primaryColor,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -50,7 +53,7 @@ class ProfileScreen extends ConsumerWidget {
           Text(
             l10n.dataManagement,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: AppTheme.primaryColor,
+                  color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -90,6 +93,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget _buildSettingsCard(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
     final settingsAsync = ref.watch(settingsProvider);
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeModeProvider);
+    final primaryColor = Theme.of(context).colorScheme.primary;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -104,6 +109,31 @@ class ProfileScreen extends ConsumerWidget {
         ),
         data: (settings) => Column(
           children: [
+            ListTile(
+              leading: const Icon(Icons.palette_outlined),
+              title: Text(l10n.theme),
+              trailing: SegmentedButton<ThemeMode>(
+                segments: [
+                  ButtonSegment(
+                    value: ThemeMode.light,
+                    icon: const Icon(Icons.light_mode_outlined, size: 16),
+                    label: Text(l10n.themeLight),
+                  ),
+                  ButtonSegment(
+                    value: ThemeMode.dark,
+                    icon: const Icon(Icons.dark_mode_outlined, size: 16),
+                    label: Text(l10n.themeDark),
+                  ),
+                ],
+                selected: {
+                  themeMode == ThemeMode.system ? ThemeMode.light : themeMode,
+                },
+                onSelectionChanged: (Set<ThemeMode> newSelection) {
+                  ref.read(themeModeProvider.notifier).setThemeMode(newSelection.first);
+                },
+              ),
+            ),
+            const Divider(height: 1),
             ListTile(
               leading: const Icon(Icons.language),
               title: Text(l10n.language),
@@ -128,7 +158,7 @@ class ProfileScreen extends ConsumerWidget {
                     : l10n.off,
               ),
               value: settings.isReminderEnabled,
-              activeThumbColor: AppTheme.primaryColor,
+              activeThumbColor: primaryColor,
               onChanged: (value) async {
                 await ref.read(settingsProvider.notifier).toggleReminder(value);
                 if (value && context.mounted) {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/sleep_provider.dart';
-import '../theme.dart';
 
 class SleepInputSheet extends ConsumerStatefulWidget {
   const SleepInputSheet({super.key});
@@ -48,11 +47,14 @@ class _SleepInputSheetState extends ConsumerState<SleepInputSheet> {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = Theme.of(context).colorScheme.primary;
+
     return Container(
       padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + bottomInset),
-      decoration: const BoxDecoration(
-        color: AppTheme.surfaceColor,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -63,7 +65,7 @@ class _SleepInputSheetState extends ConsumerState<SleepInputSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -77,7 +79,7 @@ class _SleepInputSheetState extends ConsumerState<SleepInputSheet> {
           Text(
             'How much did you sleep last night?',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey.shade600,
+                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
                 ),
           ),
           const SizedBox(height: 32),
@@ -85,7 +87,7 @@ class _SleepInputSheetState extends ConsumerState<SleepInputSheet> {
             child: Text(
               '${_hours.toStringAsFixed(1)} hours',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    color: AppTheme.primaryColor,
+                    color: primary,
                   ),
             ),
           ),
@@ -94,7 +96,7 @@ class _SleepInputSheetState extends ConsumerState<SleepInputSheet> {
             min: 0,
             max: 16,
             divisions: 32,
-            activeColor: AppTheme.primaryColor,
+            activeColor: primary,
             onChanged: (value) => setState(() => _hours = value),
           ),
           const SizedBox(height: 16),

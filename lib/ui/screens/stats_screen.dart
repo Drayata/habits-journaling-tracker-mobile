@@ -84,7 +84,7 @@ class StatsScreen extends ConsumerWidget {
                   const SizedBox(height: 24),
                   // Daily Completion Trend
                   _buildSectionTitle(context, Icons.trending_up,
-                      'Daily Completion Rate', AppTheme.primaryColor),
+                      'Daily Completion Rate', Theme.of(context).colorScheme.primary),
                   const SizedBox(height: 12),
                   _buildCompletionChart(context, stats),
                   const SizedBox(height: 24),
@@ -142,7 +142,7 @@ class StatsScreen extends ConsumerWidget {
                 title: 'Avg Completion',
                 value: '${stats.avgCompletion}%',
                 icon: Icons.trending_up,
-                color: AppTheme.primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(width: 12),
@@ -493,7 +493,9 @@ class _StatCard extends StatelessWidget {
             Text(
               title,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey.shade600,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade600,
                     fontWeight: FontWeight.w500,
                   ),
               maxLines: 1,

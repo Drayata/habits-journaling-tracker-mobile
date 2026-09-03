@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:habits_journaling_tracker_mobile/l10n/gen/app_localizations.dart';
 
-import '../theme.dart';
 import 'dashboard_screen.dart';
 import 'habits_screen.dart';
 import 'journal_screen.dart';
@@ -68,7 +67,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
     if (_currentIndex == 1) {
       return FloatingActionButton(
         onPressed: () => HabitsScreen.showAddDialog(context, ref),
-        backgroundColor: AppTheme.primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         child: const Icon(Icons.add),
       );

@@ -274,12 +274,12 @@ class _MoodSelector extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppTheme.primaryColor.withValues(alpha: 0.1)
+                            ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.15)
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
-                              ? AppTheme.primaryColor
+                              ? Theme.of(context).colorScheme.primary
                               : Colors.transparent,
                           width: 2,
                         ),
@@ -300,7 +300,7 @@ class _MoodSelector extends StatelessWidget {
                               fontSize: 10,
                               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                               color: isSelected
-                                  ? AppTheme.primaryColor
+                                  ? Theme.of(context).colorScheme.primary
                                   : Colors.grey.shade500,
                             ),
                           ),

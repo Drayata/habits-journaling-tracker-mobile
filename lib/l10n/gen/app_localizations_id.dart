@@ -375,4 +375,16 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get navStats => 'Statistik';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get themeLight => 'Terang';
+
+  @override
+  String get themeDark => 'Gelap';
+
+  @override
+  String get themeSystem => 'Sistem';
 }
