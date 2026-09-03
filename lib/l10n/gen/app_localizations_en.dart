@@ -171,6 +171,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habits => 'Habits';
 
   @override
+  String get noHabitsYet => 'No habits yet';
+
+  @override
+  String get tapToCreateHabit => 'Tap + to create your first habit';
+
+  @override
   String habitsDoneRatio(int completed, int total) {
     return '$completed/$total done';
   }

@@ -171,6 +171,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get habits => 'Habit';
 
   @override
+  String get noHabitsYet => 'Belum ada habit';
+
+  @override
+  String get tapToCreateHabit => 'Tap + untuk membuat habit pertamamu';
+
+  @override
   String habitsDoneRatio(int completed, int total) {
     return '$completed/$total selesai';
   }

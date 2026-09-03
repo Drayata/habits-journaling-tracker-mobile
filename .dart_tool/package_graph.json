@@ -143,11 +143,12 @@
     },
     {
       "name": "flutter_timezone",
-      "version": "1.0.8",
+      "version": "5.1.0",
       "dependencies": [
+        "equatable",
         "flutter",
         "flutter_web_plugins",
-        "js"
+        "meta"
       ]
     },
     {
@@ -1313,6 +1314,14 @@
         "collection",
         "meta",
         "pub_semver"
+      ]
+    },
+    {
+      "name": "equatable",
+      "version": "2.1.0",
+      "dependencies": [
+        "collection",
+        "meta"
       ]
     }
   ],

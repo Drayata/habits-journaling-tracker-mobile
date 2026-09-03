@@ -107,7 +107,7 @@ class HabitsScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
         // DateBar
-        _DateBar(selectedDate: selectedDate),
+        DateBar(selectedDate: selectedDate),
         const SizedBox(height: 8),
         // Habits list
         Expanded(
@@ -153,7 +153,7 @@ class HabitsScreen extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
                       itemCount: habits.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (_, _) =>
                           const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final habit = habits[index];
@@ -194,16 +194,16 @@ class HabitsScreen extends ConsumerWidget {
 // DateBar - horizontal scrollable date picker (15 days)
 // ============================================================
 
-class _DateBar extends ConsumerStatefulWidget {
+class DateBar extends ConsumerStatefulWidget {
   final DateTime selectedDate;
 
-  const _DateBar({required this.selectedDate});
+  const DateBar({super.key, required this.selectedDate});
 
   @override
-  ConsumerState<_DateBar> createState() => _DateBarState();
+  ConsumerState<DateBar> createState() => DateBarState();
 }
 
-class _DateBarState extends ConsumerState<_DateBar> {
+class DateBarState extends ConsumerState<DateBar> {
   late ScrollController _scrollController;
 
   @override
@@ -214,7 +214,7 @@ class _DateBarState extends ConsumerState<_DateBar> {
   }
 
   @override
-  void didUpdateWidget(covariant _DateBar oldWidget) {
+  void didUpdateWidget(covariant DateBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedDate != widget.selectedDate) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToCenter());
@@ -261,14 +261,14 @@ class _DateBarState extends ConsumerState<_DateBar> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: days.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final day = days[index];
           final dayOnly = DateTime(day.year, day.month, day.day);
           final isActive = dayOnly == activeDate;
           final isToday = dayOnly == today;
 
-          return _DateChip(
+          return DateChip(
             day: dayOnly,
             isActive: isActive,
             isToday: isToday,
@@ -282,13 +282,14 @@ class _DateBarState extends ConsumerState<_DateBar> {
   }
 }
 
-class _DateChip extends StatelessWidget {
+class DateChip extends StatelessWidget {
   final DateTime day;
   final bool isActive;
   final bool isToday;
   final VoidCallback onTap;
 
-  const _DateChip({
+  const DateChip({
+    super.key,
     required this.day,
     required this.isActive,
     required this.isToday,
@@ -458,7 +459,7 @@ class _HabitTile extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.deleteHabit),
-        content: Text(l10n.deleteHabitConfirm(habit.name)),
+        content: Text(l10n.deleteHabitConfirmation(habit.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),

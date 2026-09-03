@@ -91,7 +91,7 @@ class _JournalScreenState extends ConsumerState<JournalScreen> {
   @override
   Widget build(BuildContext context) {
     final selectedDate = ref.watch(selectedDateProvider);
-    final isFutureDate = selectedDate.isAfter(dateOnly(DateTime.now()));
+    final isFutureDate = selectedDate.isAfter(DateTime.now().dateOnly());
     final l10n = AppLocalizations.of(context)!;
     
     ref.listen<AsyncValue<JournalEntry?>>(selectedDateJournalProvider, (previous, next) {

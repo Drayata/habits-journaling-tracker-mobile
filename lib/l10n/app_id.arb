@@ -114,6 +114,8 @@
     }
   },
   "habits": "Habit",
+  "noHabitsYet": "Belum ada habit",
+  "tapToCreateHabit": "Tap + untuk membuat habit pertamamu",
   "habitsDoneRatio": "{completed}/{total} selesai",
   "@habitsDoneRatio": {
     "placeholders": {

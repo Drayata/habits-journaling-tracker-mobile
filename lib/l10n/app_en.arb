@@ -114,6 +114,8 @@
     }
   },
   "habits": "Habits",
+  "noHabitsYet": "No habits yet",
+  "tapToCreateHabit": "Tap + to create your first habit",
   "habitsDoneRatio": "{completed}/{total} done",
   "@habitsDoneRatio": {
     "placeholders": {

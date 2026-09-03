@@ -22,13 +22,18 @@ const HabitLogSchema = CollectionSchema(
       name: r'date',
       type: IsarType.dateTime,
     ),
-    r'habitId': PropertySchema(
+    r'habitDateKey': PropertySchema(
       id: 1,
+      name: r'habitDateKey',
+      type: IsarType.string,
+    ),
+    r'habitId': PropertySchema(
+      id: 2,
       name: r'habitId',
       type: IsarType.long,
     ),
     r'isCompleted': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isCompleted',
       type: IsarType.bool,
     )
@@ -64,6 +69,19 @@ const HabitLogSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'habitDateKey': IndexSchema(
+      id: 1011798722451756832,
+      name: r'habitDateKey',
+      unique: true,
+      replace: true,
+      properties: [
+        IndexPropertySchema(
+          name: r'habitDateKey',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -80,6 +98,7 @@ int _habitLogEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.habitDateKey.length * 3;
   return bytesCount;
 }
 
@@ -90,8 +109,9 @@ void _habitLogSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.date);
-  writer.writeLong(offsets[1], object.habitId);
-  writer.writeBool(offsets[2], object.isCompleted);
+  writer.writeString(offsets[1], object.habitDateKey);
+  writer.writeLong(offsets[2], object.habitId);
+  writer.writeBool(offsets[3], object.isCompleted);
 }
 
 HabitLog _habitLogDeserialize(
@@ -102,9 +122,10 @@ HabitLog _habitLogDeserialize(
 ) {
   final object = HabitLog();
   object.date = reader.readDateTime(offsets[0]);
-  object.habitId = reader.readLong(offsets[1]);
+  object.habitDateKey = reader.readString(offsets[1]);
+  object.habitId = reader.readLong(offsets[2]);
   object.id = id;
-  object.isCompleted = reader.readBool(offsets[2]);
+  object.isCompleted = reader.readBool(offsets[3]);
   return object;
 }
 
@@ -118,8 +139,10 @@ P _habitLogDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
       return (reader.readBool(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -136,6 +159,62 @@ List<IsarLinkBase<dynamic>> _habitLogGetLinks(HabitLog object) {
 
 void _habitLogAttach(IsarCollection<dynamic> col, Id id, HabitLog object) {
   object.id = id;
+}
+
+extension HabitLogByIndex on IsarCollection<HabitLog> {
+  Future<HabitLog?> getByHabitDateKey(String habitDateKey) {
+    return getByIndex(r'habitDateKey', [habitDateKey]);
+  }
+
+  HabitLog? getByHabitDateKeySync(String habitDateKey) {
+    return getByIndexSync(r'habitDateKey', [habitDateKey]);
+  }
+
+  Future<bool> deleteByHabitDateKey(String habitDateKey) {
+    return deleteByIndex(r'habitDateKey', [habitDateKey]);
+  }
+
+  bool deleteByHabitDateKeySync(String habitDateKey) {
+    return deleteByIndexSync(r'habitDateKey', [habitDateKey]);
+  }
+
+  Future<List<HabitLog?>> getAllByHabitDateKey(
+      List<String> habitDateKeyValues) {
+    final values = habitDateKeyValues.map((e) => [e]).toList();
+    return getAllByIndex(r'habitDateKey', values);
+  }
+
+  List<HabitLog?> getAllByHabitDateKeySync(List<String> habitDateKeyValues) {
+    final values = habitDateKeyValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'habitDateKey', values);
+  }
+
+  Future<int> deleteAllByHabitDateKey(List<String> habitDateKeyValues) {
+    final values = habitDateKeyValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'habitDateKey', values);
+  }
+
+  int deleteAllByHabitDateKeySync(List<String> habitDateKeyValues) {
+    final values = habitDateKeyValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'habitDateKey', values);
+  }
+
+  Future<Id> putByHabitDateKey(HabitLog object) {
+    return putByIndex(r'habitDateKey', object);
+  }
+
+  Id putByHabitDateKeySync(HabitLog object, {bool saveLinks = true}) {
+    return putByIndexSync(r'habitDateKey', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByHabitDateKey(List<HabitLog> objects) {
+    return putAllByIndex(r'habitDateKey', objects);
+  }
+
+  List<Id> putAllByHabitDateKeySync(List<HabitLog> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'habitDateKey', objects, saveLinks: saveLinks);
+  }
 }
 
 extension HabitLogQueryWhereSort on QueryBuilder<HabitLog, HabitLog, QWhere> {
@@ -407,6 +486,51 @@ extension HabitLogQueryWhere on QueryBuilder<HabitLog, HabitLog, QWhereClause> {
       ));
     });
   }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterWhereClause> habitDateKeyEqualTo(
+      String habitDateKey) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'habitDateKey',
+        value: [habitDateKey],
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterWhereClause> habitDateKeyNotEqualTo(
+      String habitDateKey) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'habitDateKey',
+              lower: [],
+              upper: [habitDateKey],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'habitDateKey',
+              lower: [habitDateKey],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'habitDateKey',
+              lower: [habitDateKey],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'habitDateKey',
+              lower: [],
+              upper: [habitDateKey],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
 }
 
 extension HabitLogQueryFilter
@@ -460,6 +584,140 @@ extension HabitLogQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition> habitDateKeyEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'habitDateKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition>
+      habitDateKeyGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'habitDateKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition> habitDateKeyLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'habitDateKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition> habitDateKeyBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'habitDateKey',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition>
+      habitDateKeyStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'habitDateKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition> habitDateKeyEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'habitDateKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition> habitDateKeyContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'habitDateKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition> habitDateKeyMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'habitDateKey',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition>
+      habitDateKeyIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'habitDateKey',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterFilterCondition>
+      habitDateKeyIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'habitDateKey',
+        value: '',
       ));
     });
   }
@@ -599,6 +857,18 @@ extension HabitLogQuerySortBy on QueryBuilder<HabitLog, HabitLog, QSortBy> {
     });
   }
 
+  QueryBuilder<HabitLog, HabitLog, QAfterSortBy> sortByHabitDateKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'habitDateKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterSortBy> sortByHabitDateKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'habitDateKey', Sort.desc);
+    });
+  }
+
   QueryBuilder<HabitLog, HabitLog, QAfterSortBy> sortByHabitId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'habitId', Sort.asc);
@@ -635,6 +905,18 @@ extension HabitLogQuerySortThenBy
   QueryBuilder<HabitLog, HabitLog, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterSortBy> thenByHabitDateKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'habitDateKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<HabitLog, HabitLog, QAfterSortBy> thenByHabitDateKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'habitDateKey', Sort.desc);
     });
   }
 
@@ -683,6 +965,13 @@ extension HabitLogQueryWhereDistinct
     });
   }
 
+  QueryBuilder<HabitLog, HabitLog, QDistinct> distinctByHabitDateKey(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'habitDateKey', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<HabitLog, HabitLog, QDistinct> distinctByHabitId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'habitId');
@@ -707,6 +996,12 @@ extension HabitLogQueryProperty
   QueryBuilder<HabitLog, DateTime, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<HabitLog, String, QQueryOperations> habitDateKeyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'habitDateKey');
     });
   }
 

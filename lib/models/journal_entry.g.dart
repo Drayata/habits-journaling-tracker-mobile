@@ -30,12 +30,17 @@ const JournalEntrySchema = CollectionSchema(
     r'mood': PropertySchema(
       id: 2,
       name: r'mood',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'title': PropertySchema(
       id: 3,
       name: r'title',
       type: IsarType.string,
+    ),
+    r'updatedAt': PropertySchema(
+      id: 4,
+      name: r'updatedAt',
+      type: IsarType.dateTime,
     )
   },
   estimateSize: _journalEntryEstimateSize,
@@ -47,8 +52,8 @@ const JournalEntrySchema = CollectionSchema(
     r'date': IndexSchema(
       id: -7552997827385218417,
       name: r'date',
-      unique: false,
-      replace: false,
+      unique: true,
+      replace: true,
       properties: [
         IndexPropertySchema(
           name: r'date',
@@ -86,7 +91,6 @@ int _journalEntryEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.content.length * 3;
-  bytesCount += 3 + object.mood.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
@@ -99,8 +103,9 @@ void _journalEntrySerialize(
 ) {
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.date);
-  writer.writeString(offsets[2], object.mood);
+  writer.writeLong(offsets[2], object.mood);
   writer.writeString(offsets[3], object.title);
+  writer.writeDateTime(offsets[4], object.updatedAt);
 }
 
 JournalEntry _journalEntryDeserialize(
@@ -113,8 +118,9 @@ JournalEntry _journalEntryDeserialize(
   object.content = reader.readString(offsets[0]);
   object.date = reader.readDateTime(offsets[1]);
   object.id = id;
-  object.mood = reader.readString(offsets[2]);
+  object.mood = reader.readLong(offsets[2]);
   object.title = reader.readString(offsets[3]);
+  object.updatedAt = reader.readDateTimeOrNull(offsets[4]);
   return object;
 }
 
@@ -130,9 +136,11 @@ P _journalEntryDeserializeProp<P>(
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -149,6 +157,61 @@ List<IsarLinkBase<dynamic>> _journalEntryGetLinks(JournalEntry object) {
 void _journalEntryAttach(
     IsarCollection<dynamic> col, Id id, JournalEntry object) {
   object.id = id;
+}
+
+extension JournalEntryByIndex on IsarCollection<JournalEntry> {
+  Future<JournalEntry?> getByDate(DateTime date) {
+    return getByIndex(r'date', [date]);
+  }
+
+  JournalEntry? getByDateSync(DateTime date) {
+    return getByIndexSync(r'date', [date]);
+  }
+
+  Future<bool> deleteByDate(DateTime date) {
+    return deleteByIndex(r'date', [date]);
+  }
+
+  bool deleteByDateSync(DateTime date) {
+    return deleteByIndexSync(r'date', [date]);
+  }
+
+  Future<List<JournalEntry?>> getAllByDate(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return getAllByIndex(r'date', values);
+  }
+
+  List<JournalEntry?> getAllByDateSync(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'date', values);
+  }
+
+  Future<int> deleteAllByDate(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'date', values);
+  }
+
+  int deleteAllByDateSync(List<DateTime> dateValues) {
+    final values = dateValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'date', values);
+  }
+
+  Future<Id> putByDate(JournalEntry object) {
+    return putByIndex(r'date', object);
+  }
+
+  Id putByDateSync(JournalEntry object, {bool saveLinks = true}) {
+    return putByIndexSync(r'date', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByDate(List<JournalEntry> objects) {
+    return putAllByIndex(r'date', objects);
+  }
+
+  List<Id> putAllByDateSync(List<JournalEntry> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'date', objects, saveLinks: saveLinks);
+  }
 }
 
 extension JournalEntryQueryWhereSort
@@ -720,55 +783,47 @@ extension JournalEntryQueryFilter
   }
 
   QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition> moodEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'mood',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
       moodGreaterThan(
-    String value, {
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'mood',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition> moodLessThan(
-    String value, {
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'mood',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition> moodBetween(
-    String lower,
-    String upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -777,78 +832,6 @@ extension JournalEntryQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
-      moodStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'mood',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition> moodEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'mood',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition> moodContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'mood',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition> moodMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'mood',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
-      moodIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'mood',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
-      moodIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'mood',
-        value: '',
       ));
     });
   }
@@ -986,6 +969,80 @@ extension JournalEntryQueryFilter
       ));
     });
   }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
+      updatedAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'updatedAt',
+      ));
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
+      updatedAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'updatedAt',
+      ));
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
+      updatedAtEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updatedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
+      updatedAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'updatedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
+      updatedAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'updatedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterFilterCondition>
+      updatedAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'updatedAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension JournalEntryQueryObject
@@ -1041,6 +1098,18 @@ extension JournalEntryQuerySortBy
   QueryBuilder<JournalEntry, JournalEntry, QAfterSortBy> sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterSortBy> sortByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterSortBy> sortByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
     });
   }
 }
@@ -1106,6 +1175,18 @@ extension JournalEntryQuerySortThenBy
       return query.addSortBy(r'title', Sort.desc);
     });
   }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterSortBy> thenByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QAfterSortBy> thenByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
 }
 
 extension JournalEntryQueryWhereDistinct
@@ -1123,10 +1204,9 @@ extension JournalEntryQueryWhereDistinct
     });
   }
 
-  QueryBuilder<JournalEntry, JournalEntry, QDistinct> distinctByMood(
-      {bool caseSensitive = true}) {
+  QueryBuilder<JournalEntry, JournalEntry, QDistinct> distinctByMood() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'mood', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'mood');
     });
   }
 
@@ -1134,6 +1214,12 @@ extension JournalEntryQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<JournalEntry, JournalEntry, QDistinct> distinctByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updatedAt');
     });
   }
 }
@@ -1158,7 +1244,7 @@ extension JournalEntryQueryProperty
     });
   }
 
-  QueryBuilder<JournalEntry, String, QQueryOperations> moodProperty() {
+  QueryBuilder<JournalEntry, int, QQueryOperations> moodProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mood');
     });
@@ -1167,6 +1253,12 @@ extension JournalEntryQueryProperty
   QueryBuilder<JournalEntry, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
+    });
+  }
+
+  QueryBuilder<JournalEntry, DateTime?, QQueryOperations> updatedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updatedAt');
     });
   }
 }

@@ -368,6 +368,18 @@ abstract class AppLocalizations {
   /// **'Habits'**
   String get habits;
 
+  /// No description provided for @noHabitsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No habits yet'**
+  String get noHabitsYet;
+
+  /// No description provided for @tapToCreateHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to create your first habit'**
+  String get tapToCreateHabit;
+
   /// No description provided for @habitsDoneRatio.
   ///
   /// In en, this message translates to:

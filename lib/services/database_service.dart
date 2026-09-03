@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import '../models/habit.dart';
 import '../models/habit_log.dart';
 import '../models/journal_entry.dart';
+import '../models/sleep_log.dart';
 
 class DatabaseService {
   DatabaseService._();
@@ -27,7 +28,7 @@ class DatabaseService {
     final dir = await getApplicationDocumentsDirectory();
 
     _isar = await Isar.open(
-      [HabitSchema, HabitLogSchema, JournalEntrySchema],
+      [HabitSchema, HabitLogSchema, JournalEntrySchema, SleepLogSchema],
       directory: dir.path,
     );
 

@@ -2,8 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../models/habit_log.dart';
-import '../models/journal_entry.dart';
-import '../models/sleep_log.dart';
+
 import 'dashboard_providers.dart';
 import 'database_provider.dart';
 import 'habits_provider.dart';
@@ -107,9 +106,12 @@ final statsDataProvider = FutureProvider<StatsData>((ref) async {
 
   // Build journal day -> mood map
   final journalMoodMap = <DateTime, String>{};
+  const moodNames = ['Terrible', 'Bad', 'Neutral', 'Good', 'Great'];
   for (final j in journals) {
     final key = DateTime(j.date.year, j.date.month, j.date.day);
-    journalMoodMap[key] = j.mood;
+    if (j.mood >= 1 && j.mood <= 5) {
+      journalMoodMap[key] = moodNames[j.mood - 1];
+    }
   }
 
   // Month day names
@@ -181,7 +183,9 @@ final statsDataProvider = FutureProvider<StatsData>((ref) async {
     final key = DateTime(j.date.year, j.date.month, j.date.day);
     final dayCompleted = dayCompletionMap[key] ?? 0;
     final rate = habitCount > 0 ? ((dayCompleted / habitCount) * 100).round() : 0;
-    moodBuckets.putIfAbsent(j.mood, () => []).add(rate);
+    if (j.mood >= 1 && j.mood <= 5) {
+      moodBuckets.putIfAbsent(moodNames[j.mood - 1], () => []).add(rate);
+    }
   }
 
   const moodOrder = ['Terrible', 'Bad', 'Neutral', 'Good', 'Great'];

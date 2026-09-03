@@ -3,6 +3,24 @@ import 'package:isar/isar.dart';
 
 import '../models/journal_entry.dart';
 import 'database_provider.dart';
+import 'dashboard_providers.dart';
+
+final selectedDateJournalProvider = Provider<AsyncValue<JournalEntry?>>((ref) {
+  final date = ref.watch(selectedDateProvider);
+  final journalsAsync = ref.watch(journalProvider);
+  
+  return journalsAsync.whenData((journals) {
+    final normalized = DateTime(date.year, date.month, date.day);
+    try {
+      return journals.firstWhere((j) {
+        final jDate = DateTime(j.date.year, j.date.month, j.date.day);
+        return jDate == normalized;
+      });
+    } catch (_) {
+      return null;
+    }
+  });
+});
 
 final journalProvider =
     AsyncNotifierProvider<JournalNotifier, List<JournalEntry>>(

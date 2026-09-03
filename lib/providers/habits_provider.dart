@@ -71,6 +71,7 @@ class HabitsNotifier extends AsyncNotifier<List<Habit>> {
         final log = HabitLog()
           ..habitId = habitId
           ..date = dateOnly
+          ..habitDateKey = HabitLog.generateKey(habitId, dateOnly)
           ..isCompleted = true;
         await _isar.habitLogs.put(log);
       }
