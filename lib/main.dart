@@ -31,7 +31,7 @@ class HabitsJournalingApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      title: 'Habits & Journal',
+      title: 'Prokopa',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       localizationsDelegates: const [

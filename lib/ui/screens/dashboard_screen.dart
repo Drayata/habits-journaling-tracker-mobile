@@ -8,6 +8,7 @@ import '../widgets/heatmap_grid.dart';
 import '../widgets/progress_ring.dart';
 import '../widgets/sleep_input_sheet.dart';
 import 'profile_screen.dart';
+import '../widgets/prokopa_logo.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -28,6 +29,8 @@ class DashboardScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           toolbarHeight: 56,
+          title: const ProkopaLogo(height: 32),
+          centerTitle: false,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8),

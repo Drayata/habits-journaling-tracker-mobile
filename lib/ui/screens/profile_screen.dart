@@ -6,6 +6,7 @@ import '../../providers/settings_provider.dart';
 import '../../providers/locale_provider.dart';
 import '../../services/export_service.dart';
 import '../theme.dart';
+import '../widgets/prokopa_logo.dart';
 import 'package:habits_journaling_tracker_mobile/l10n/gen/app_localizations.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -22,15 +23,18 @@ class ProfileScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           const SizedBox(height: 16),
-          const CircleAvatar(
-            radius: 48,
-            backgroundColor: AppTheme.primaryColor,
-            child: Icon(Icons.person, size: 48, color: Colors.white),
-          ),
-          const SizedBox(height: 16),
+          const Center(child: ProkopaLogo(height: 64)),
+          const SizedBox(height: 12),
           Text(
-            l10n.myProfile,
+            'Prokopa',
             style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            'Habits and Jurnaling',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey,
+                ),
             textAlign: TextAlign.center,
           ),
           Text(

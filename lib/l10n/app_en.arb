@@ -234,5 +234,10 @@
   "navDashboard": "Dashboard",
   "navHabits": "Habits",
   "navJournal": "Journal",
-  "navStats": "Stats"
+  "navStats": "Stats",
+  
+  "theme": "Theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System"
 }
