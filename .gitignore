@@ -55,3 +55,4 @@ node_modules
 *.isar.lock
 
 .env
+.env.local
