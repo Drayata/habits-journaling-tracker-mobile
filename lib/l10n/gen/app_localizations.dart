@@ -371,13 +371,13 @@ abstract class AppLocalizations {
   /// No description provided for @noHabitsYet.
   ///
   /// In en, this message translates to:
-  /// **'No habits yet'**
+  /// **'A blank canvas for a great day. Add your first habit here.'**
   String get noHabitsYet;
 
   /// No description provided for @tapToCreateHabit.
   ///
   /// In en, this message translates to:
-  /// **'Tap + to create your first habit'**
+  /// **'Let\'s take a small step today!'**
   String get tapToCreateHabit;
 
   /// No description provided for @habitsDoneRatio.
@@ -407,7 +407,7 @@ abstract class AppLocalizations {
   /// No description provided for @noActiveHabits.
   ///
   /// In en, this message translates to:
-  /// **'No active habits for this date'**
+  /// **'Taking a break is normal. No active habits for this date.'**
   String get noActiveHabits;
 
   /// No description provided for @habitsCreatedAfterExcluded.
@@ -515,7 +515,7 @@ abstract class AppLocalizations {
   /// No description provided for @journalHint.
   ///
   /// In en, this message translates to:
-  /// **'Write about your day, reflect on your progress...'**
+  /// **'What is one small thing that made you smile today? Or what burden do you want to release here?'**
   String get journalHint;
 
   /// No description provided for @cannotAddJournalFuture.

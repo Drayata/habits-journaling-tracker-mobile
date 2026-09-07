@@ -171,10 +171,11 @@ class AppLocalizationsId extends AppLocalizations {
   String get habits => 'Habit';
 
   @override
-  String get noHabitsYet => 'Belum ada habit';
+  String get noHabitsYet =>
+      'Kanvas kosong untuk hari yang hebat. Tambahkan kebiasaan pertamamu di sini.';
 
   @override
-  String get tapToCreateHabit => 'Tap + untuk membuat habit pertamamu';
+  String get tapToCreateHabit => 'Mari ambil langkah kecil hari ini!';
 
   @override
   String habitsDoneRatio(int completed, int total) {
@@ -195,7 +196,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get noActiveHabits => 'Belum ada habit aktif untuk hari ini';
+  String get noActiveHabits =>
+      'Istirahat itu wajar. Tidak ada kebiasaan aktif untuk hari ini.';
 
   @override
   String get habitsCreatedAfterExcluded =>
@@ -256,7 +258,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get todaysEntry => 'Catatan Hari Ini';
 
   @override
-  String get journalHint => 'Tulis tentang harimu, evaluasi progress-mu...';
+  String get journalHint =>
+      'Apa satu hal kecil yang membuatmu tersenyum hari ini? Atau beban apa yang ingin kamu lepaskan di sini?';
 
   @override
   String get cannotAddJournalFuture =>

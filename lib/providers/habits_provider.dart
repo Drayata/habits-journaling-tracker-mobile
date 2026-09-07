@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 
 import '../models/habit.dart';
 import '../models/habit_log.dart';
+import '../utils/date_utils.dart';
 import 'database_provider.dart';
 
 final habitsProvider =
@@ -55,7 +56,7 @@ class HabitsNotifier extends AsyncNotifier<List<Habit>> {
     required int habitId,
     required DateTime date,
   }) async {
-    final dateOnly = DateTime(date.year, date.month, date.day);
+    final dateOnly = date.logicalDay();
 
     final existing = await _isar.habitLogs
         .filter()
@@ -92,7 +93,7 @@ class HabitsNotifier extends AsyncNotifier<List<Habit>> {
   }
 
   Future<List<HabitLog>> getLogsForDate(DateTime date) async {
-    final dateOnly = DateTime(date.year, date.month, date.day);
+    final dateOnly = date.logicalDay();
     return _isar.habitLogs.filter().dateEqualTo(dateOnly).findAll();
   }
 }

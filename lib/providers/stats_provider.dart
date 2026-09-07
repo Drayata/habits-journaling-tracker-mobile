@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../models/habit_log.dart';
+import '../models/journal_entry.dart';
+import '../models/sleep_log.dart';
 
 import 'dashboard_providers.dart';
 import 'database_provider.dart';
@@ -70,45 +73,50 @@ class StatsData {
   });
 }
 
-final statsDataProvider = FutureProvider<StatsData>((ref) async {
-  final habits = await ref.watch(habitsProvider.future);
-  final journals = await ref.watch(journalProvider.future);
-  final sleepLogs = await ref.watch(sleepProvider.future);
-  final monthRange = ref.watch(statsMonthRangeProvider);
-  final isar = ref.read(databaseProvider).requireValue;
+class StatsPayload {
+  final DateTime monthStart;
+  final DateTime monthEnd;
+  final int habitCount;
+  final List<HabitLog> completionLogs;
+  final List<SleepLog> sleepLogs;
+  final List<JournalEntry> journals;
 
-  final monthStart = monthRange.start;
-  final monthEnd = monthRange.end;
+  StatsPayload({
+    required this.monthStart,
+    required this.monthEnd,
+    required this.habitCount,
+    required this.completionLogs,
+    required this.sleepLogs,
+    required this.journals,
+  });
+}
+
+StatsData _computeStats(StatsPayload payload) {
+  final monthStart = payload.monthStart;
+  final monthEnd = payload.monthEnd;
   final totalDays = monthEnd.day;
-
-  // Fetch completions for this month
-  final completionLogs = await isar.habitLogs
-      .filter()
-      .dateBetween(monthStart, monthEnd)
-      .isCompletedEqualTo(true)
-      .findAll();
-
-  final habitCount = habits.length;
+  final habitCount = payload.habitCount;
 
   // Build per-day completion map
   final dayCompletionMap = <DateTime, int>{};
-  for (final log in completionLogs) {
-    final key = DateTime(log.date.year, log.date.month, log.date.day);
+  for (final log in payload.completionLogs) {
+    // Already normalized by logicalDay
+    final key = log.date;
     dayCompletionMap[key] = (dayCompletionMap[key] ?? 0) + 1;
   }
 
   // Build per-day sleep map
   final sleepMap = <DateTime, double>{};
-  for (final log in sleepLogs) {
-    final key = DateTime(log.date.year, log.date.month, log.date.day);
+  for (final log in payload.sleepLogs) {
+    final key = log.date;
     sleepMap[key] = log.hours;
   }
 
   // Build journal day -> mood map
   final journalMoodMap = <DateTime, String>{};
   const moodNames = ['Terrible', 'Bad', 'Neutral', 'Good', 'Great'];
-  for (final j in journals) {
-    final key = DateTime(j.date.year, j.date.month, j.date.day);
+  for (final j in payload.journals) {
+    final key = j.date;
     if (j.mood >= 1 && j.mood <= 5) {
       journalMoodMap[key] = moodNames[j.mood - 1];
     }
@@ -173,14 +181,14 @@ final statsDataProvider = FutureProvider<StatsData>((ref) async {
   final avgSleepStr = '${avgSleepH}h ${avgSleepM}m';
 
   // 3. Journals in this month
-  final monthJournals = journals.where((j) {
+  final monthJournals = payload.journals.where((j) {
     return !j.date.isBefore(monthStart) && !j.date.isAfter(monthEnd);
   }).toList();
 
   // 4. Mood vs completion correlation
   final moodBuckets = <String, List<int>>{};
   for (final j in monthJournals) {
-    final key = DateTime(j.date.year, j.date.month, j.date.day);
+    final key = j.date;
     final dayCompleted = dayCompletionMap[key] ?? 0;
     final rate = habitCount > 0 ? ((dayCompleted / habitCount) * 100).round() : 0;
     if (j.mood >= 1 && j.mood <= 5) {
@@ -213,4 +221,33 @@ final statsDataProvider = FutureProvider<StatsData>((ref) async {
     sleepTrend: sleepTrend,
     moodCorrelation: moodCorrelation,
   );
+}
+
+final statsDataProvider = FutureProvider<StatsData>((ref) async {
+  final habits = await ref.watch(habitsProvider.future);
+  final journals = await ref.watch(journalProvider.future);
+  final sleepLogs = await ref.watch(sleepProvider.future);
+  final monthRange = ref.watch(statsMonthRangeProvider);
+  final isar = ref.read(databaseProvider).requireValue;
+
+  final monthStart = monthRange.start;
+  final monthEnd = monthRange.end;
+
+  // Fetch completions for this month
+  final completionLogs = await isar.habitLogs
+      .filter()
+      .dateBetween(monthStart, monthEnd)
+      .isCompletedEqualTo(true)
+      .findAll();
+
+  final payload = StatsPayload(
+    monthStart: monthStart,
+    monthEnd: monthEnd,
+    habitCount: habits.length,
+    completionLogs: completionLogs,
+    sleepLogs: sleepLogs,
+    journals: journals,
+  );
+
+  return compute(_computeStats, payload);
 });

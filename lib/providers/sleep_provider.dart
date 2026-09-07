@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../models/sleep_log.dart';
+import '../utils/date_utils.dart';
 import 'database_provider.dart';
 
 final sleepProvider =
@@ -18,7 +19,7 @@ class SleepNotifier extends AsyncNotifier<List<SleepLog>> {
 
   Future<void> addOrUpdateSleep(
       DateTime date, double hours, String? notes) async {
-    final dateOnly = DateTime(date.year, date.month, date.day);
+    final dateOnly = date.logicalDay();
     
     await _isar.writeTxn(() async {
       final existing =
@@ -41,7 +42,7 @@ class SleepNotifier extends AsyncNotifier<List<SleepLog>> {
 final todaySleepProvider = FutureProvider<SleepLog?>((ref) async {
   final logs = await ref.watch(sleepProvider.future);
   final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
+  final today = now.logicalDay();
   
   try {
     return logs.firstWhere((log) => log.date == today);

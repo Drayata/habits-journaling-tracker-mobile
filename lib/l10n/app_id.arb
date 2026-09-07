@@ -114,8 +114,8 @@
     }
   },
   "habits": "Habit",
-  "noHabitsYet": "Belum ada habit",
-  "tapToCreateHabit": "Tap + untuk membuat habit pertamamu",
+  "noHabitsYet": "Kanvas kosong untuk hari yang hebat. Tambahkan kebiasaan pertamamu di sini.",
+  "tapToCreateHabit": "Mari ambil langkah kecil hari ini!",
   "habitsDoneRatio": "{completed}/{total} selesai",
   "@habitsDoneRatio": {
     "placeholders": {
@@ -136,7 +136,7 @@
       "error": { "type": "String" }
     }
   },
-  "noActiveHabits": "Belum ada habit aktif untuk hari ini",
+  "noActiveHabits": "Istirahat itu wajar. Tidak ada kebiasaan aktif untuk hari ini.",
   "habitsCreatedAfterExcluded": "Habit yang dibuat setelah tanggal yang dipilih sengaja disembunyikan.",
   "deleteHabit": "Hapus Habit",
   "deleteHabitConfirmation": "Hapus \"{habitName}\" beserta seluruh progress-nya?",
@@ -171,7 +171,7 @@
   
   "journal": "Jurnal",
   "todaysEntry": "Catatan Hari Ini",
-  "journalHint": "Tulis tentang harimu, evaluasi progress-mu...",
+  "journalHint": "Apa satu hal kecil yang membuatmu tersenyum hari ini? Atau beban apa yang ingin kamu lepaskan di sini?",
   "cannotAddJournalFuture": "Tidak bisa menambah jurnal untuk hari yang belum terjadi.",
   "journalAutoSaveHint": "💡 Journal kamu auto-save setiap kali mengetik. Santai aja.",
   "howAreYouFeeling": "Gimana perasaanmu hari ini?",

@@ -4,15 +4,15 @@ class AppTheme {
   AppTheme._();
 
   static const primaryColor = Color(0xFF3949AB);
-  static const successColor = Color(0xFF10B981);
+  static const successColor = Color(0xFF39FF14); // Neon Green for high-dopamine completion reward
   static const backgroundColor = Color(0xFFF8F9FA);
   static const surfaceColor = Color(0xFFFFFFFF);
 
   static const darkPrimaryColor = Color(0xFF7986CB);
-  static const darkBackgroundColor = Color(0xFF0F121E);
-  static const darkSurfaceColor = Color(0xFF1A1F36);
-  static const darkCardColor = Color(0xFF1A1F36);
-  static const darkBorderColor = Color(0xFF2E3654);
+  static const darkBackgroundColor = Color(0xFF0F172A); // Midnight Blue
+  static const darkSurfaceColor = Color(0xFF1E293B);
+  static const darkCardColor = Color(0xFF1E293B);
+  static const darkBorderColor = Color(0xFF334155);
 
   static bool isDark(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark;
@@ -137,7 +137,7 @@ class AppTheme {
         brightness: Brightness.dark,
         surface: darkSurfaceColor,
         onSurface: const Color(0xFFF1F5F9),
-        surfaceContainerHighest: const Color(0xFF242A44),
+        surfaceContainerHighest: const Color(0xFF334155),
         outline: darkBorderColor,
       ),
       scaffoldBackgroundColor: darkBackgroundColor,
@@ -197,7 +197,7 @@ class AppTheme {
         color: darkCardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Color(0xFF282F4A), width: 0.5),
+          side: const BorderSide(color: Color(0xFF334155), width: 0.5),
         ),
         margin: EdgeInsets.zero,
       ),
@@ -208,7 +208,7 @@ class AppTheme {
         iconColor: Color(0xFF94A3B8),
       ),
       dividerTheme: const DividerThemeData(
-        color: Color(0xFF242A44),
+        color: Color(0xFF334155),
         thickness: 1,
       ),
       dialogTheme: DialogThemeData(
@@ -238,7 +238,7 @@ class AppTheme {
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        fillColor: const Color(0xFF131728),
+        fillColor: const Color(0xFF0F172A),
         filled: true,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -256,7 +256,7 @@ class AppTheme {
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Color(0xFF131728),
+        backgroundColor: Color(0xFF0F172A),
         selectedItemColor: darkPrimaryColor,
         unselectedItemColor: Color(0xFF64748B),
         type: BottomNavigationBarType.fixed,

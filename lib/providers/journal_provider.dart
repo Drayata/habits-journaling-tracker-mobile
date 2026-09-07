@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../models/journal_entry.dart';
+import '../utils/date_utils.dart';
 import 'database_provider.dart';
 import 'dashboard_providers.dart';
 
@@ -10,10 +11,10 @@ final selectedDateJournalProvider = Provider<AsyncValue<JournalEntry?>>((ref) {
   final journalsAsync = ref.watch(journalProvider);
   
   return journalsAsync.whenData((journals) {
-    final normalized = DateTime(date.year, date.month, date.day);
+    final normalized = date.logicalDay();
     try {
       return journals.firstWhere((j) {
-        final jDate = DateTime(j.date.year, j.date.month, j.date.day);
+        final jDate = j.date.logicalDay();
         return jDate == normalized;
       });
     } catch (_) {
@@ -42,7 +43,7 @@ class JournalNotifier extends AsyncNotifier<List<JournalEntry>> {
     int? mood,
     required DateTime date,
   }) async {
-    final normalizedDate = DateTime(date.year, date.month, date.day);
+    final normalizedDate = date.logicalDay();
     
     final existing = await _isar.journalEntrys
         .filter()

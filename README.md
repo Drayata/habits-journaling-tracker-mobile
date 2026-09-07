@@ -1,6 +1,5 @@
-# habits_journaling_tracker_mobile
+# Prokopa - habits and Jurnaling
 
-A new Flutter project.
 
 ## Getting Started
 

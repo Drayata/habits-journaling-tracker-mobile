@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/habit.dart';
@@ -433,6 +434,7 @@ class _HabitTile extends ConsumerWidget {
               ),
               IconButton(
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   ref.read(habitsProvider.notifier).toggleLog(
                         habitId: habit.id,
                         date: selectedDate,

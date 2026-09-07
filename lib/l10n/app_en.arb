@@ -114,8 +114,8 @@
     }
   },
   "habits": "Habits",
-  "noHabitsYet": "No habits yet",
-  "tapToCreateHabit": "Tap + to create your first habit",
+  "noHabitsYet": "A blank canvas for a great day. Add your first habit here.",
+  "tapToCreateHabit": "Let's take a small step today!",
   "habitsDoneRatio": "{completed}/{total} done",
   "@habitsDoneRatio": {
     "placeholders": {
@@ -136,7 +136,7 @@
       "error": { "type": "String" }
     }
   },
-  "noActiveHabits": "No active habits for this date",
+  "noActiveHabits": "Taking a break is normal. No active habits for this date.",
   "habitsCreatedAfterExcluded": "Habits created after the selected date are intentionally excluded.",
   "deleteHabit": "Delete Habit",
   "deleteHabitConfirmation": "Delete \"{habitName}\" and all its logs?",
@@ -171,7 +171,7 @@
   
   "journal": "Journal",
   "todaysEntry": "Today's Entry",
-  "journalHint": "Write about your day, reflect on your progress...",
+  "journalHint": "What is one small thing that made you smile today? Or what burden do you want to release here?",
   "cannotAddJournalFuture": "Cannot add journal entries for future dates.",
   "journalAutoSaveHint": "💡 Your journal auto-saves as you type. Take your time.",
   "howAreYouFeeling": "How are you feeling?",
